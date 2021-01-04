@@ -20,11 +20,11 @@ export default class Registration extends Component {
         );
     }
 
-    handleClick(res) {
+    handleClick() {
         console.log("It works!!!");
         axios.post("/registration", this.state)
             .then(() => {
-                res.redirect("/");
+                location.replace("/");
             })
             .catch((err) => {
                 console.log("Error sending post to the server: ",err);
@@ -71,7 +71,7 @@ export default class Registration extends Component {
                         placeholder="Password"
                         required
                     ></input>
-                    <button onClick={(res) => this.handleClick(res)} type="submit">Submit!</button>
+                    <button onClick={() => this.handleClick()} type="submit">Submit!</button>
                     { this.state.error && <p style={{color: "red"}}>Something broke! Please fill in missing fields above!</p> }
                 </form>
             </div>
