@@ -21,7 +21,7 @@ export default class Registration extends Component {
     }
 
     handleClick() {
-        console.log("It works!!!");
+        console.log("Clicking works!!!");
         axios.post("/registration", this.state)
             .then(() => {
                 location.replace("/");

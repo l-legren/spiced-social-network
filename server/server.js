@@ -6,6 +6,7 @@ process.env.NODE_ENV === "production"
     ? (secrets = process.env)
     : (secrets = require("./secrets"));
 const cookieSession =  require("cookie-session");
+const { addSigner } = require("/db.js");
 import { hash } from "bcryptjs";
 import Welcome from "./welcome";
 
@@ -39,9 +40,14 @@ app.get("/welcome", (req, res) => {
 
 app.post("/registration", (req, res) => {
     console.log(req.body);
-    const { first, last, email, password} = req.body;
+    const { first, last, email, password } = req.body;
     hash(password)
-        .then((hash) => )
+        .then((hash) => {
+            return addUser(first, last, email, password)
+                .then(({rows}) => {
+                    req.session.userId = rows[0].id
+                })
+            });
 });
 
 

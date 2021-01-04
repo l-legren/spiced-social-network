@@ -4,7 +4,7 @@ const db = spicedPg(
         "postgres:postgres:postgres@localhost:5432/petition"
 );
 
-module.exports.addSignUp = (first, last, email, password) => {
+module.exports.addUser = (first, last, email, password) => {
     const q = `INSERT INTO users (first, last, email, password)
     VALUES ($1, $2, $3, $4)
     RETURNING id`;
