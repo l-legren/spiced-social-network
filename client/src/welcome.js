@@ -9,9 +9,9 @@ export default class Welcome extends Component {
         return (
             <>
                 <h1>WELCOME!</h1>
-                <Link to="/login">Click here to log in</Link>
-                <Link to="/welcome">Click here to sign up</Link>
                 <HashRouter>
+                    <Link to="/login">Click here to log in</Link><br></br>
+                    <Link to="/">Click here to sign up</Link>
                     <div>
                         <Route exact path="/" component={Registration} />
                         <Route path="/login" component={Login} />
