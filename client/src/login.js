@@ -1,7 +1,7 @@
 import { Component } from "react";
 import instance from "./axios";
 
-export default class Registration extends Component {
+export default class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -22,7 +22,7 @@ export default class Registration extends Component {
     handleClick() {
         console.log("Clicking works!!!");
         let obj = this.state;
-        instance.post("/registration", obj)
+        instance.post("/login", obj)
             .then((obj) => {
                 console.log("This is my reg object: ", obj);
                 location.replace("/");
@@ -41,24 +41,10 @@ export default class Registration extends Component {
     render() {
         return (
             <div>
-                <h1>Join our Community!</h1>
-                <input
-                    name="first"
-                    type="text"
-                    onChange={(e) => this.handleChange(e)}
-                    placeholder="First Name"
-                    required
-                ></input>
-                <input
-                    name="last"
-                    type="text"
-                    onChange={(e) => this.handleChange(e)}
-                    placeholder="Last Name"
-                    required
-                ></input>
+                <h1>LOG IN!</h1>
                 <input
                     name="email"
-                    type="email"
+                    type="text"
                     onChange={(e) => this.handleChange(e)}
                     placeholder="E-Mail"
                     required
@@ -70,7 +56,7 @@ export default class Registration extends Component {
                     placeholder="Password"
                     required
                 ></input>
-                <button onClick={() => this.handleClick()} type="submit">Submit!</button>
+                <button onClick={() => this.handleClick()} type="submit">Log In!</button>
                 { this.state.error && <p style={{color: "red"}}>Something broke! Please fill in missing fields above!</p> }
             </div>
         );

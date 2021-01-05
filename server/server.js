@@ -2,14 +2,14 @@ const express = require("express");
 const app = express();
 const compression = require("compression");
 const path = require("path");
-// process.env.NODE_ENV === "production"
-//     ? (secrets = process.env)
-//     : (secrets = require("./secrets"));
+process.env.NODE_ENV === "production"
+    ? (secrets = process.env)
+    : (secrets = require("./secrets"));
 const cookieSession =  require("cookie-session");
 const db = require("./db.js");
 // csurf create tokens in the requests objects!!
-// const csurf = require("csurf");
-const { hash } = require("./bc.js");
+const csurf = require("csurf");
+const { hash, compare } = require("./bc.js");
 
 
 // MIDDLEWARE
@@ -23,12 +23,12 @@ app.use(
     })
 );
 
-// app.use(csurf());
+app.use(csurf());
 
-// app.use(function(req, res, next){
-//     res.cookie('mytoken', req.csrfToken());
-//     next();
-// });
+app.use(function(req, res, next){
+    res.cookie('mytoken', req.csrfToken());
+    next();
+});
 
 app.use(compression());
 
@@ -37,33 +37,61 @@ app.use(express.static(path.join(__dirname, "..", "client", "public")));
 
 // ROUTES!
 
-app.get("/welcome", (req, res) => {
-    if (req.session.userId) {
-        req.redirect("/");
-    } else {
-        res.sendFile(path.join(__dirname, "..", "client", "index.html"));
-    }
-});
-
+// app.get("/welcome", (req, res) => {
+//     if (req.session.userId) {
+//         res.redirect("/");
+//     } else {
+//         res.sendFile(path.join(__dirname, "..", "client", "index.html"));
+//     }
+// });
 
 
 app.post("/registration", (req, res) => {
     console.log(req.body);
-    // const { first, last, email, password } = req.body;
-    // hash(password)
-    //     .then((hash) => {
-    //         console.log(hash);
-    //         return db.addUser(first, last, email, hash)
-    //             .then(({rows}) => {
-    //                 req.session.userId = rows[0].id;
-    //                 console.log("req.session set");
-    //             })
-    //             .catch((err) => console.log("Error adding to database: ", err));
-    //     })
-    //     .catch((err) => console.log("Error hashing the password for database: ", err));
+    const { first, last, email, password } = req.body;
+    hash(password)
+        .then((hash) => {
+            console.log(hash);
+            return db.addUser(first, last, email, hash)
+                .then(({rows}) => {
+                    req.session.userId = rows[0].id;
+                    res.json({
+                        success: true
+                    });
+                    console.log("req.session set");
+                })
+                .catch((err) => {
+                    console.log("Error adding to database: ", err);
+                    res.json({
+                        success: false
+                    });
+                });
+        })
+        .catch((err) => console.log("Error hashing the password for database: ", err));
 });
 
-
+app.post("/login", (req, res) => {
+    console.log(req.body);
+    const { email, password } = req.body;
+    db.getPassword(email)
+        .then(({rows}) => {
+            const hashedPsw = rows[0].password;
+            compare(password, hashedPsw)
+                .then((booleanResult) => {
+                    if (booleanResult) {
+                        req.session.userId = rows[0].id;
+                        res.json({
+                            success: true
+                        });
+                    }
+                }).catch((err) => {
+                    console.log("Error logging: ", err);
+                    res.json({
+                        success: false
+                    });
+                });
+        });
+});
 
 // NEVER COMMENT OUT THIS LINE OF CODE!!!
 app.get("*", function (req, res) {
@@ -73,4 +101,3 @@ app.get("*", function (req, res) {
 app.listen(process.env.PORT || 3001, function () {
     console.log("I'm listening.");
 });
-
