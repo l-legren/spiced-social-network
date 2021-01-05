@@ -10,7 +10,11 @@ const db = require("./db.js");
 // csurf create tokens in the requests objects!!
 const csurf = require("csurf");
 const { hash, compare } = require("./bc.js");
+const cryptoRandomString = require('crypto-random-string');
 
+const secretCode = cryptoRandomString({
+    length: 6
+});
 
 // MIDDLEWARE
 
@@ -37,13 +41,13 @@ app.use(express.static(path.join(__dirname, "..", "client", "public")));
 
 // ROUTES!
 
-// app.get("/welcome", (req, res) => {
-//     if (req.session.userId) {
-//         res.redirect("/");
-//     } else {
-//         res.sendFile(path.join(__dirname, "..", "client", "index.html"));
-//     }
-// });
+app.get("/welcome", (req, res) => {
+    if (req.session.userId) {
+        res.redirect("/");
+    } else {
+        res.sendFile(path.join(__dirname, "..", "client", "index.html"));
+    }
+});
 
 
 app.post("/registration", (req, res) => {

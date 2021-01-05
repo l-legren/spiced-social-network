@@ -1,12 +1,11 @@
 import { Component } from "react";
 import instance from "./axios";
-import { Link } from "react-router-dom";
 
-export default class Login extends Component {
+export default class ResetPassword extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            error: null
+            view: reset
         };
     }
 
@@ -23,7 +22,7 @@ export default class Login extends Component {
     handleClick() {
         console.log("Clicking works!!!");
         let obj = this.state;
-        instance.post("/login", obj)
+        instance.post("/reseting", obj)
             .then((obj) => {
                 console.log("This is my reg object: ", obj);
                 location.replace("/");
@@ -42,7 +41,7 @@ export default class Login extends Component {
     render() {
         return (
             <div>
-                <h1>LOG IN!</h1>
+                <h1>Reset Password</h1>
                 <input
                     name="email"
                     type="email"
@@ -50,19 +49,7 @@ export default class Login extends Component {
                     placeholder="E-Mail"
                     required
                 ></input>
-                <input
-                    name="password"
-                    type="password"
-                    onChange={(e) => this.handleChange(e)}
-                    placeholder="Password"
-                    required
-                ></input>
-                <button onClick={() => this.handleClick()} type="submit">Log In!</button>
-                { this.state.error && <p style={{color: "red"}}>Something broke! Please fill in missing fields above!</p> }
-                <br></br>
-                <br></br>
-                <p>Forgot your Password?</p>
-                <Link to="/reset-password">Click here to reset your password!</Link>
+                <button onClick={() => this.handleClick()} type="submit">Send Code</button>
             </div>
         );
     }
