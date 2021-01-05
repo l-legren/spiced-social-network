@@ -9,4 +9,3 @@ if (location.pathname == "/welcome") {
 }
 
 ReactDOM.render(elem, document.querySelector("main"));
-
