@@ -11,10 +11,7 @@ const db = require("./db.js");
 const csurf = require("csurf");
 const { hash, compare } = require("./bc.js");
 const cryptoRandomString = require('crypto-random-string');
-
-const secretCode = cryptoRandomString({
-    length: 6
-});
+const { sendEmail } = require("./ses");
 
 // MIDDLEWARE
 
@@ -94,6 +91,36 @@ app.post("/login", (req, res) => {
                         success: false
                     });
                 });
+        });
+});
+
+app.post("/password/reset/start", (req, res) => {
+    console.log(req.body);
+    const { email } = req.body;
+    db.mailExists(email)
+        .then(({rows}) => {
+            if (rows.length == 1) {
+                res.json({
+                    success: true
+                });
+            }
+            const secretCode = cryptoRandomString({
+                length: 6
+            });
+            db.newCode(secretCode, rows[0].email)
+                .then(() => {
+                    console.log("Code stored in Table");
+                    sendEmail(
+                        "carlosleret+1@gmail.com",
+                        `Hey ${rows[0].first} ${rows[0].last}, here is your code!`,
+                        "Your new Code!"
+                    ).then(() => console.log("Mail sent!"));
+                }).catch((err) => console.log("Error storing Code: ", err));
+        }).catch((err) => {
+            console.log("Error getting provided eMail: ", err);
+            res.json({
+                success: false
+            });
         });
 });
 

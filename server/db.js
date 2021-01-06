@@ -15,6 +15,14 @@ module.exports.addUser = (first, last, email, password) => {
     return db.query(q, params);
 };
 
+module.exports.newCode = (code, email) => {
+    const q = `INSERT INTO reset_codes (code, email)
+    VALUES ($1, $2)`;
+    const params = [code, email];
+
+    return db.query(q, params);
+};
+
 // FETCHING DATA FROM DATABASE
 
 module.exports.getPassword = (email) => {
@@ -24,3 +32,12 @@ module.exports.getPassword = (email) => {
 
     return db.query(q, params);
 };
+
+module.exports.mailExists = (email) => {
+    const q = `SELECT email FROM users WHERE email=($1)`;
+    const params = [email];
+
+    return db.query(q, params);
+};
+
+

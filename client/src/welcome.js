@@ -11,8 +11,6 @@ export default class Welcome extends Component {
             <>
                 <h1>WELCOME!</h1>
                 <HashRouter>
-                    <Link to="/login">Click here to log in</Link><br></br>
-                    <Link to="/">Click here to sign up</Link>
                     <div>
                         <Route exact path="/" component={Registration} />
                         <Route path="/login" component={Login} />

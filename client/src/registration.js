@@ -1,4 +1,5 @@
 import { Component } from "react";
+import { Link } from "react-router-dom";
 import instance from "./axios";
 
 export default class Registration extends Component {
@@ -72,6 +73,8 @@ export default class Registration extends Component {
                 ></input>
                 <button onClick={() => this.handleClick()} type="submit">Submit!</button>
                 { this.state.error && <p style={{color: "red"}}>Something broke! Please fill in missing fields above!</p> }
+                <p>Already a member?</p>
+                <Link to="/login">Click here to log in</Link>
             </div>
         );
     }

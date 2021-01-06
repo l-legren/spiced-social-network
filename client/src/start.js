@@ -6,15 +6,14 @@ import ResetPassword from "./reset-password";
 let elem;
 if (location.pathname == "/welcome") {
     elem = <Welcome />;
-} else {
+} else if (location.pathname == "/login") {
+    elem = <Login />;
+} else if (location.pathname == "/reset-password") {
+    elem = <ResetPassword />;
+}  else {
     elem = <p>Home Page!</p>;
 }
 
 ReactDOM.render(elem, document.querySelector("main"));
 
 
-// else if (location.pathname == "/login") {
-//     elem = <Login />;
-// } else if (location.pathname == "/reset-password") {
-//     elem = <ResetPassword />;
-// } 
