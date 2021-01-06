@@ -25,7 +25,7 @@ export default class ResetPassword extends Component {
         // console.log("Clicking works!!!");
         let obj = this.state;
         instance.post("/password/reset/start", obj)
-            .then((obj) => {
+            .then(() => {
                 // console.log("This is my req object: ", obj);
                 this.setState({
                     error: null,
@@ -34,6 +34,23 @@ export default class ResetPassword extends Component {
             })
             .catch((err) => {
                 console.log("Error sending post to the server: ",err);
+                this.setState({
+                    error: true
+                });
+            });
+    }
+
+    handleConfirm () {
+        let obj = this.state;
+        console.log("State in view 2: ", obj);
+        instance.post("/password/reset/confirm", obj)
+            .then(() => {
+                console.log("Req sent to the server");
+                this.setState({
+                    view: 3
+                });
+            }).catch((err) => {
+                console.log("Error on the Server: ", err);
                 this.setState({
                     error: true
                 });
@@ -61,22 +78,22 @@ export default class ResetPassword extends Component {
                     <div>
                         <h2>Enter the code we sent to your Mail!</h2>
                         <input
-                            name="email"
-                            type="email"
+                            name="code"
+                            type="text"
                             onChange={(e) => this.handleChange(e)}
-                            placeholder="E-Mail"
+                            placeholder="Secret Code"
                             required
                         ></input>
-                        <button onClick={() => this.handleClick()} type="submit">Send Code</button>
                         <h2>Insert your new Password</h2>
                         <input
-                            name="email"
-                            type="email"
+                            name="newPassword"
+                            type="password"
                             onChange={(e) => this.handleChange(e)}
-                            placeholder="E-Mail"
+                            placeholder="Password"
                             required
                         ></input>
-                        <button onClick={() => this.handleClick()} type="submit">Send Code</button>
+                        <br></br>
+                        <button onClick={() => this.handleConfirm()} type="submit">Send Code</button>
                     </div>
                 )}
                 { this.state.view == 3 && (

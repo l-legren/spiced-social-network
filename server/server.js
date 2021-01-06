@@ -100,25 +100,64 @@ app.post("/password/reset/start", (req, res) => {
     db.mailExists(email)
         .then(({rows}) => {
             if (rows.length == 1) {
-                res.json({
-                    success: true
+                const secretCode = cryptoRandomString({
+                    length: 6
                 });
+                db.newCode(secretCode, rows[0].email)
+                    .then(() => {
+                        // console.log("Code stored in Table");
+                        sendEmail(
+                            "carlosleret@gmail.com",
+                            `Hey ${rows[0].first} ${rows[0].last}, here is your code! ${secretCode}`,
+                            "Your new Code!"
+                        ).then(() => {
+                            console.log("Mail sent!");
+                            res.json({
+                                success: true
+                            });
+                        }).catch((err) => {
+                            console.log("Error sending the eMail:", err);
+                            res.json({
+                                success: false
+                            });
+                        });
+                    }).catch((err) => console.log("Error storing Code: ", err));
             }
-            console.log(rows);
-            const secretCode = cryptoRandomString({
-                length: 6
-            });
-            db.newCode(secretCode, rows[0].email)
-                .then(() => {
-                    console.log("Code stored in Table");
-                    sendEmail(
-                        "carlosleret@gmail.com",
-                        `Hey ${rows[0].first} ${rows[0].last}, here is your code! ${secretCode}`,
-                        "Your new Code!"
-                    ).then(() => console.log("Mail sent!"));
-                }).catch((err) => console.log("Error storing Code: ", err));
         }).catch((err) => {
             console.log("Error getting provided eMail: ", err);
+            res.json({
+                success: false
+            });
+        });
+});
+
+app.post("/password/reset/confirm", (req, res) => {
+    // console.log(req.body);
+    const { email, code, newPassword } = req.body;
+    db.getCode(email)
+        .then(({rows}) => {
+            console.log("From Query:", rows);
+            const storedCode = rows[0].code;
+            if (storedCode == code) {
+                hash(newPassword)
+                    .then((hashedNew) => {
+                        console.log(hashedNew);
+                        db.updatePassword(email, hashedNew)
+                            .then(() => {
+                                console.log("DB updated!");
+                                res.json({
+                                    success: true
+                                });
+                            }).catch((err) => {
+                                console.log("Error while updating DB: ", err);
+                                res.json({
+                                    success: false
+                                });
+                            });
+                    });
+            }
+        }).catch((err) => {
+            console.log("Error matching codes", err);
             res.json({
                 success: false
             });

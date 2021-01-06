@@ -40,3 +40,22 @@ module.exports.mailExists = (email) => {
     return db.query(q, params);
 };
 
+module.exports.getCode = (email) => {
+    const q = `SELECT * FROM reset_codes
+    WHERE email = ($1) 
+    AND CURRENT_TIMESTAMP - timestamp < INTERVAL '10 minutes'`;
+    const params = [email];
+
+    return db.query(q, params);
+};
+
+// UPDATING
+
+module.exports.updatePassword = (email, password) => {
+    const q = `UPDATE users
+    SET password = ($2)
+    WHERE email = ($1)`;
+    const params = [email, password];
+
+    return db.query(q, params);
+}
