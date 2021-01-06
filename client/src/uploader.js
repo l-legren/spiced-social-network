@@ -1,5 +1,5 @@
 import { Component } from "react";
-import axios from "axios";
+import instance from "./axios";
 
 export default class Uploader extends Component {
     constructor(props) {
@@ -10,7 +10,7 @@ export default class Uploader extends Component {
     }
 
     handleChange(e) {
-        console.log(e.target.files[0]);
+        // console.log(e.target.files[0]);
         this.setState({
             picture: e.target.files[0]
         });
@@ -19,14 +19,17 @@ export default class Uploader extends Component {
     upload() {
         const fd = new FormData();
         fd.append("picture", this.state.picture);
-        console.log("My pic file: ", this.state.picture);
-        console.log("My formdata after appending: ", fd);
-        // axios.post("/upload-picture", formData)
-        //     .then(() => console.log("Got response!"));
+        instance.post("/upload-picture", fd)
+            .then(({data}) => {
+                // console.log("res from the server:", data);
+                this.setState({
+                    picture: data.pic
+                });
+            });
     }
 
     render() {
-        // console.log("Props in Uploader: ", this.state);
+        console.log("Props in Uploader: ", this.state);
         return (
             <div>
                 <input
