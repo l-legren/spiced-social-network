@@ -164,9 +164,19 @@ app.post("/password/reset/confirm", (req, res) => {
         });
 });
 
-// app.get("logged-user", (req, res) => {
-
-// });
+app.get("/user", (req, res) => {
+    console.log(req.session.userId);
+    db.getUser(req.session.userId)
+        .then(({rows}) => {
+            console.log(rows);
+            res.json(rows[0]);
+        }).catch((err) => {
+            console.log("Error requesting data from server: ", err);
+            res.json({
+                success: false
+            });
+        });
+});
 
 // NEVER COMMENT OUT THIS LINE OF CODE!!!
 app.get("*", function (req, res) {

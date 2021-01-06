@@ -49,6 +49,14 @@ module.exports.getCode = (email) => {
     return db.query(q, params);
 };
 
+module.exports.getUser = (id) => {
+    const q = `SELECT * FROM users
+    WHERE id = ($1)`;
+    const params = [id];
+
+    return db.query(q, params);
+};
+
 // UPDATING
 
 module.exports.updatePassword = (email, password) => {

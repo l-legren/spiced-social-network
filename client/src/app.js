@@ -2,6 +2,7 @@ import { Component } from "react";
 import ProfilePic from "./profilepic";
 import Uploader from "./uploader";
 import instance from "./axios";
+import axios from "axios";
 
 export default class App extends Component {
     constructor() {
@@ -12,8 +13,12 @@ export default class App extends Component {
     }
 
     componentDidMount() {
-        // instance.get("logged-user");
-        console.log("App mounted!");
+        axios.get("/user")
+            .then(({data}) => {
+                console.log(data);
+                this.setState(data);
+                console.log("App mounted!");
+            }).catch((err) => console.log("Error mounting!"));
     }
 
     toggleUploader() {
@@ -29,6 +34,7 @@ export default class App extends Component {
     }
 
     render() {
+        console.log(this.state);
         return (
             <div>
                 <h1>App</h1>
