@@ -12,8 +12,27 @@ const csurf = require("csurf");
 const { hash, compare } = require("./bc.js");
 const cryptoRandomString = require('crypto-random-string');
 const { sendEmail } = require("./ses");
+const multer = require("multer");
 
 // MIDDLEWARE
+
+const diskStorage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, __dirname + "/uploads");
+    },
+    filename: function (req, file, callback) {
+        uidSafe(24).then(function (uid) {
+            callback(null, `${uid}${path.extname(file.originalname)}`);
+        });
+    },
+});
+
+const uploader = multer({
+    storage: diskStorage,
+    limits: {
+        fileSize: 2097152,
+    },
+});
 
 app.use(express.json());
 
@@ -176,6 +195,11 @@ app.get("/user", (req, res) => {
                 success: false
             });
         });
+});
+
+app.post("/upload-picture", uploader.single("picture"), (req, res) => {
+    console.log(req.body);
+    console.log(req.file);
 });
 
 // NEVER COMMENT OUT THIS LINE OF CODE!!!
