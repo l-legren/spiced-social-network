@@ -34,10 +34,9 @@ module.exports.getPassword = (email) => {
 };
 
 module.exports.mailExists = (email) => {
-    const q = `SELECT email FROM users WHERE email=($1)`;
+    const q = `SELECT * FROM users WHERE email=($1)`;
     const params = [email];
 
     return db.query(q, params);
 };
-
 

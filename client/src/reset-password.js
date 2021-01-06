@@ -22,11 +22,11 @@ export default class ResetPassword extends Component {
     }
 
     handleClick() {
-        console.log("Clicking works!!!");
+        // console.log("Clicking works!!!");
         let obj = this.state;
         instance.post("/password/reset/start", obj)
             .then((obj) => {
-                console.log("This is my reg object: ", obj);
+                // console.log("This is my req object: ", obj);
                 this.setState({
                     error: null,
                     view: 2

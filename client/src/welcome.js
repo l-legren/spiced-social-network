@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { HashRouter, Route, Link } from "react-router-dom";
+import { HashRouter, Route } from "react-router-dom";
 import Registration from "./registration";
 import Login from "./login";
 import ResetPassword from "./reset-password";

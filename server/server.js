@@ -72,7 +72,7 @@ app.post("/registration", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
     const { email, password } = req.body;
     db.getPassword(email)
         .then(({rows}) => {
@@ -95,7 +95,7 @@ app.post("/login", (req, res) => {
 });
 
 app.post("/password/reset/start", (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
     const { email } = req.body;
     db.mailExists(email)
         .then(({rows}) => {
@@ -104,6 +104,7 @@ app.post("/password/reset/start", (req, res) => {
                     success: true
                 });
             }
+            console.log(rows);
             const secretCode = cryptoRandomString({
                 length: 6
             });
@@ -111,8 +112,8 @@ app.post("/password/reset/start", (req, res) => {
                 .then(() => {
                     console.log("Code stored in Table");
                     sendEmail(
-                        "carlosleret+1@gmail.com",
-                        `Hey ${rows[0].first} ${rows[0].last}, here is your code!`,
+                        "carlosleret@gmail.com",
+                        `Hey ${rows[0].first} ${rows[0].last}, here is your code! ${secretCode}`,
                         "Your new Code!"
                     ).then(() => console.log("Mail sent!"));
                 }).catch((err) => console.log("Error storing Code: ", err));
@@ -123,6 +124,10 @@ app.post("/password/reset/start", (req, res) => {
             });
         });
 });
+
+// app.get("logged-user", (req, res) => {
+
+// });
 
 // NEVER COMMENT OUT THIS LINE OF CODE!!!
 app.get("*", function (req, res) {

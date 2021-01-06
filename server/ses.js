@@ -16,7 +16,7 @@ const ses = new aws.SES({
 exports.sendEmail = function (recipient, message, subject) {
     // will send an email in our behalf! return for making it asynchronous!
     return ses.sendEmail({
-        Source: "Carlos Leret <carlosleret@gamail.com>",
+        Source: "Carlos Leret <carlosleret@gmail.com>",
         Destination: {
             ToAddresses: [recipient]
         },
