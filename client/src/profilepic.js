@@ -1,7 +1,13 @@
 import { Component } from "react";
 
-export default function ProfilePic(props) {
+export default function ProfilePic({ profilePic, toggleUploader }) {
     return (
-        <div>Profile Pic</div> 
+        <div>
+            <img
+                onClick={() => toggleUploader()}
+                src="/default.jpg"
+                alt="default profile picture"
+            ></img>
+        </div>
     );
 }

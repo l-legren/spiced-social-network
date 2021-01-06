@@ -9,6 +9,7 @@ export default class App extends Component {
         super();
         this.state = {
             uploaderIsVisible: false,
+            profilePic: null
         };
     }
 
@@ -16,9 +17,14 @@ export default class App extends Component {
         axios.get("/user")
             .then(({data}) => {
                 console.log(data);
-                this.setState(data);
+                this.setState({
+                    id: data.id,
+                    first: data.first,
+                    last: data.last,
+                    email: data.email
+                });
                 console.log("App mounted!");
-            }).catch((err) => console.log("Error mounting!"));
+            }).catch((err) => console.log("Error mounting!:", err));
     }
 
     toggleUploader() {
@@ -26,6 +32,7 @@ export default class App extends Component {
             uploaderIsVisible: !this.state.uploaderIsVisible
         });
     }
+
     // pass new pic url as an argument from the uploader component
     setImage(newProfilePic) {
         this.setState({
@@ -38,8 +45,7 @@ export default class App extends Component {
         return (
             <div>
                 <h1>App</h1>
-                <ProfilePic />
-                <h2 onClick={() => this.toggleUploader()}>CLICK TO TOGGLE UPLOADER</h2>
+                <ProfilePic toggleUploader={() => this.toggleUploader()} profilePic={this.state.profilePic} />
                 { this.state.uploaderIsVisible && (
                     <Uploader setImage={() => this.setImage()} />
                 )}

@@ -9,7 +9,14 @@ export default class Uploader extends Component {
     render() {
         console.log("Props in Uploader: ", this.props);
         return (
-            <div>Uploader</div>
+            <div>
+                <input
+                    id="file-button"
+                    type="file"
+                    name="image"
+                    accept="image/*"
+                />
+            </div>
         );
     } 
 }
