@@ -10,45 +10,53 @@ export default class App extends Component {
         super();
         this.state = {
             uploaderIsVisible: false,
-            profilePic: null
+            profilePic: null,
         };
     }
 
     componentDidMount() {
-        axios.get("/user")
+        axios
+            .get("/user")
             .then(({ data }) => {
-                console.log(data);
+                // console.log(data);
                 this.setState({
                     id: data.id,
                     first: data.first,
                     last: data.last,
-                    email: data.email
+                    email: data.email,
                 });
                 console.log("App mounted!");
-            }).catch((err) => console.log("Error mounting!:", err));
+            })
+            .catch((err) => console.log("Error mounting!:", err));
     }
 
     toggleUploader() {
         this.setState({
-            uploaderIsVisible: !this.state.uploaderIsVisible
+            uploaderIsVisible: !this.state.uploaderIsVisible,
         });
     }
 
     // pass new pic url as an argument from the uploader component
-    setImage(newProfilePic) {
+    setImage(urlProfilePic) {
         this.setState({
-            profilePic: "Selected Pic"
+            profilePic: urlProfilePic,
         });
     }
 
     render() {
-        console.log(this.state);
+        console.log("State of App", this.state);
         return (
             <div>
                 <h1>App</h1>
-                <ProfilePic toggleUploader={() => this.toggleUploader()} profilePic={this.state.profilePic} />
-                { this.state.uploaderIsVisible && (
-                    <Uploader setImage={() => this.setImage()} />
+                <ProfilePic
+                    toggleUploader = {() => this.toggleUploader()}
+                    profilePic = {this.state.profilePic}
+                    first = {this.state.first}
+                />
+                {this.state.uploaderIsVisible && (
+                    <Uploader 
+                        setImage={(urlProfilePic) => this.setImage(urlProfilePic)} 
+                    />
                 )}
                 <Profile />
             </div>

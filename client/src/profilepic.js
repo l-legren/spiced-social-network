@@ -1,13 +1,21 @@
-import { Component } from "react";
-
-export default function ProfilePic({ profilePic, toggleUploader }) {
+export default function ProfilePic({ profilePic, toggleUploader, first }) {
+    console.log("ProfilePic in Component:", profilePic);
     return (
-        <div>
-            <img
-                onClick={() => toggleUploader()}
-                src="/default.jpg"
-                alt="default profile picture"
-            ></img>
-        </div>
+        <>
+            { profilePic && (
+                <img
+                    onClick={() => toggleUploader()}
+                    src={profilePic}
+                    alt={first}
+                ></img>
+            )}
+            { !profilePic && (
+                <img
+                    onClick={() => toggleUploader()}
+                    src="/default.jpg"
+                    alt={first}
+                ></img>
+            )}
+        </>
     );
 }

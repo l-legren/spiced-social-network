@@ -4,9 +4,7 @@ import instance from "./axios";
 export default class Uploader extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            picture: null
-        };
+        this.state = {};
     }
 
     handleChange(e) {
@@ -16,20 +14,18 @@ export default class Uploader extends Component {
         });
     }
 
-    upload() {
+    handleUpload() {
         const fd = new FormData();
         fd.append("picture", this.state.picture);
         instance.post("/upload-picture", fd)
             .then(({data}) => {
-                // console.log("res from the server:", data);
-                this.setState({
-                    picture: data.pic
-                });
-            });
+                this.props.setImage(data.pic);
+            }).catch((err) => console.log("Error requesting from Server: ", err));
     }
 
     render() {
-        console.log("Props in Uploader: ", this.state);
+        console.log("State in Uploader: ", this.state);
+        console.log("Props in Uploader: ", this.props);
         return (
             <div>
                 <input
@@ -40,7 +36,7 @@ export default class Uploader extends Component {
                     accept="image/*"
                 />
                 <input 
-                    onClick={() => this.upload()}
+                    onClick={() => this.handleUpload()}
                     id="submit-button"
                     type="button"
                     value="Submit!"
