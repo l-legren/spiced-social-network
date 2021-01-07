@@ -3,6 +3,7 @@ import ProfilePic from "./profilepic";
 import Uploader from "./uploader";
 import instance from "./axios";
 import axios from "axios";
+import Profile from "./profile";
 
 export default class App extends Component {
     constructor() {
@@ -15,7 +16,7 @@ export default class App extends Component {
 
     componentDidMount() {
         axios.get("/user")
-            .then(({data}) => {
+            .then(({ data }) => {
                 console.log(data);
                 this.setState({
                     id: data.id,
@@ -49,6 +50,7 @@ export default class App extends Component {
                 { this.state.uploaderIsVisible && (
                     <Uploader setImage={() => this.setImage()} />
                 )}
+                <Profile />
             </div>
         );
     }
