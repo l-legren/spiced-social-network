@@ -1,9 +1,9 @@
 import { Component } from "react";
 import ProfilePic from "./profilepic";
 import Uploader from "./uploader";
-import instance from "./axios";
 import axios from "axios";
 import Profile from "./profile";
+import styled from 'styled-components';
 
 export default class App extends Component {
     constructor() {
@@ -53,19 +53,23 @@ export default class App extends Component {
 
     render() {
         console.log("State of App", this.state);
+        
         return (
             <div>
-                <h1>App</h1>
-                <ProfilePic
-                    toggleUploader = {() => this.toggleUploader()}
-                    profilePic = {this.state.profilePic}
-                    first = {this.state.first}
-                />
-                {this.state.uploaderIsVisible && (
-                    <Uploader 
-                        setImage={(urlProfilePic) => this.setImage(urlProfilePic)} 
+                <div className="nav-top">
+                    <h1>App</h1>
+                    <ProfilePic
+                        toggleUploader = {() => this.toggleUploader()}
+                        profilePic = {this.state.profilePic}
+                        first = {this.state.first}
                     />
-                )}
+                    {this.state.uploaderIsVisible && (
+                        <Uploader 
+                            setImage={(urlProfilePic) => this.setImage(urlProfilePic)} 
+                        />
+                    )}
+                </div>
+                <div className="divisory"></div>
                 <Profile 
                     first={this.state.first}
                     last={this.state.last}

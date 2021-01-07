@@ -4,7 +4,7 @@ export default function ProfilePic({ profilePic, toggleUploader, first }) {
         <>
             { profilePic && (
                 <img
-                    style={{ width: 300, height: 300}}
+                    // style={{ width: 300, height: 300}}
                     onClick={() => toggleUploader()}
                     src={profilePic}
                     alt={first}

@@ -4,7 +4,7 @@ import ProfilePic from "./profilepic";
 export default function Profile({ first, last, profilePic, bio, setBio }) {
     // console.log("These are my props: ", props);
     return (
-        <div>
+        <div className="profile-section">
             <h1>USER PROFILE COMPONENT</h1>
             <ProfilePic 
                 first={first}

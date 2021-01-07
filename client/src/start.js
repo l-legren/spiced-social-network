@@ -1,7 +1,5 @@
 import ReactDOM from "react-dom";
 import Welcome from "./welcome";
-import Login from "./login";
-import ResetPassword from "./reset-password";
 import App from "./app";
 
 let elem;
