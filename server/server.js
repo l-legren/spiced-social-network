@@ -46,6 +46,8 @@ app.use(
     })
 );
 
+app.use(express.urlencoded({ extended: false }));
+
 app.use(csurf());
 
 app.use(function(req, res, next){
@@ -187,10 +189,10 @@ app.post("/password/reset/confirm", (req, res) => {
 });
 
 app.get("/user", (req, res) => {
-    console.log(req.session.userId);
+    // console.log(req.session.userId);
     db.getUser(req.session.userId)
         .then(({rows}) => {
-            console.log(rows);
+            // console.log(rows);
             res.json(rows[0]);
         }).catch((err) => {
             console.log("Error requesting data from server: ", err);
@@ -203,7 +205,7 @@ app.get("/user", (req, res) => {
 app.post("/upload-picture", uploader.single("picture"), upload, (req, res) => {
     const { filename } = req.file;
     const fullUrl = `${s3Url}${filename}`;
-    console.log(fullUrl);
+    // console.log(fullUrl);
     db.updateProfilePic(fullUrl, req.session.userId)
         .then(({rows}) => {
             console.log("Pic stored in database and returned:", rows[0].profile_pic);
@@ -217,6 +219,13 @@ app.post("/upload-picture", uploader.single("picture"), upload, (req, res) => {
                 success: false
             });
         });
+});
+
+app.post("/update-bio", (req, res) => {
+    console.log(req.file);
+    res.json({
+        success: false
+    });
 });
 
 // NEVER COMMENT OUT THIS LINE OF CODE!!!

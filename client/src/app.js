@@ -59,7 +59,11 @@ export default class App extends Component {
                         setImage={(urlProfilePic) => this.setImage(urlProfilePic)} 
                     />
                 )}
-                <Profile />
+                <Profile 
+                    first={this.state.first}
+                    last={this.state.last}
+                    profilePic={this.state.profilePic}
+                />
             </div>
         );
     }

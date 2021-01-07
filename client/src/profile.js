@@ -6,7 +6,7 @@ export default function Profile(props) {
     return (
         <div>
             <h1>USER PROFILE COMPONENT</h1>
-            {/* <ProfilePic /> */}
+            <ProfilePic />
             <BioEditor />
         </div>
     );
