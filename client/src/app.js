@@ -24,6 +24,7 @@ export default class App extends Component {
                     first: data.first,
                     last: data.last,
                     email: data.email,
+                    profilePic: data.profile_pic
                 });
                 console.log("App mounted!");
             })
