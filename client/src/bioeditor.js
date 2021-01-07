@@ -30,8 +30,6 @@ export default class BioEditor extends Component {
     }
 
     uploadBio() {
-        const obj = this.state.newBio;
-        // console.log("Sending request to the server!", this.state.newBio);
         this.setState({
             textAreaVisible: false
         });
@@ -53,8 +51,9 @@ export default class BioEditor extends Component {
                     <>
                         <textarea
                             onChange={(e) => this.handleText(e)}
-                            placeholder = {this.props.bio}
-                        />
+                        >
+                            {this.props.bio}
+                        </textarea>
                         <button onClick={() => this.uploadBio()} >Save Bio!</button>
                     </>
                 )}
