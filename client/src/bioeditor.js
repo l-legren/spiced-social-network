@@ -10,6 +10,12 @@ export default class BioEditor extends Component {
         };
     }
 
+    componentDidMount() {
+        this.setState({
+            textAreaVisible: false
+        });
+    }
+
     toggleTextarea() {
         this.setState({
             textAreaVisible: !this.state.textAreaVisible
@@ -24,16 +30,17 @@ export default class BioEditor extends Component {
     }
 
     uploadBio() {
-        // when clicking on save while in edit mode -->
-        // We need to make a post request in here to update the value of our Bio in dabtabase?
-        // Once succesful, call method passed down from the App component, updating bio in state in App
         const obj = this.state.newBio;
-        console.log("Sending request to the server!", this.state.newBio);
+        // console.log("Sending request to the server!", this.state.newBio);
+        this.setState({
+            textAreaVisible: false
+        });
         instance
             .post("/update-bio", {
                 bio: this.state.newBio
             }).then(({data}) => {
-                console.log("Got response from server", data);
+                console.log("Got response from server", data[0]);
+                this.props.setBio(data[0].bio);
                 
             }).catch((err) => console.log("Error sending bio:", err));
     }
@@ -46,15 +53,25 @@ export default class BioEditor extends Component {
                     <>
                         <textarea
                             onChange={(e) => this.handleText(e)}
-                            // value the text that is already saved, passed down from state in App???
+                            placeholder = {this.props.bio}
                         />
                         <button onClick={() => this.uploadBio()} >Save Bio!</button>
                     </>
                 )}
                 { !this.state.textAreaVisible && (
                     <>
-                        <h2>{this.props.bio}</h2>
-                        <button onClick={() => this.toggleTextarea()}>Edit your Bio!</button>
+                        { this.props.bio && (
+                            <>
+                                <h2>{this.props.bio}</h2>
+                                <button onClick={() => this.toggleTextarea()}>EDIT BIO!</button>
+                            </>
+                        )}
+                        { !this.props.bio && (
+                            <>
+                                <h2>{this.props.bio}</h2>
+                                <button onClick={() => this.toggleTextarea()}>ADD BIO!</button>
+                            </>
+                        )}
                     </>
                 )}
             </>

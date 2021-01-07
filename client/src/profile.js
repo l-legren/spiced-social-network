@@ -1,7 +1,7 @@
 import BioEditor from "./bioeditor";
 import ProfilePic from "./profilepic";
 
-export default function Profile({ first, last, profilePic, bio }) {
+export default function Profile({ first, last, profilePic, bio, setBio }) {
     // console.log("These are my props: ", props);
     return (
         <div>
@@ -14,6 +14,7 @@ export default function Profile({ first, last, profilePic, bio }) {
                 first={first}
                 last={last}
                 bio={bio}
+                setBio={setBio}
             />
         </div>
     );

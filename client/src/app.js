@@ -45,6 +45,12 @@ export default class App extends Component {
         });
     }
 
+    setBio(newBio) {
+        this.setState({
+            bio: newBio
+        });
+    }
+
     render() {
         console.log("State of App", this.state);
         return (
@@ -65,6 +71,7 @@ export default class App extends Component {
                     last={this.state.last}
                     profilePic={this.state.profilePic}
                     bio={this.state.bio}
+                    setBio={(newBio) => this.setBio(newBio)}
                 />
             </div>
         );
