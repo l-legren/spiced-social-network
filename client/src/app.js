@@ -24,7 +24,8 @@ export default class App extends Component {
                     first: data.first,
                     last: data.last,
                     email: data.email,
-                    profilePic: data.profile_pic
+                    profilePic: data.profile_pic,
+                    bio: data.bio
                 });
                 console.log("App mounted!");
             })
@@ -63,6 +64,7 @@ export default class App extends Component {
                     first={this.state.first}
                     last={this.state.last}
                     profilePic={this.state.profilePic}
+                    bio={this.state.bio}
                 />
             </div>
         );

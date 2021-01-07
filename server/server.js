@@ -5,12 +5,12 @@ const path = require("path");
 process.env.NODE_ENV === "production"
     ? (secrets = process.env)
     : (secrets = require("./secrets"));
-const cookieSession =  require("cookie-session");
+const cookieSession = require("cookie-session");
 const db = require("./db.js");
 // csurf create tokens in the requests objects!!
 const csurf = require("csurf");
 const { hash, compare } = require("./bc.js");
-const cryptoRandomString = require('crypto-random-string');
+const cryptoRandomString = require("crypto-random-string");
 const { sendEmail } = require("./ses");
 const multer = require("multer");
 const uidSafe = require("uid-safe");
@@ -50,15 +50,14 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(csurf());
 
-app.use(function(req, res, next){
-    res.cookie('mytoken', req.csrfToken());
+app.use(function (req, res, next) {
+    res.cookie("mytoken", req.csrfToken());
     next();
 });
 
 app.use(compression());
 
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
-
 
 // ROUTES!
 
@@ -70,62 +69,64 @@ app.get("/welcome", (req, res) => {
     }
 });
 
-
 app.post("/registration", (req, res) => {
     console.log(req.body);
     const { first, last, email, password } = req.body;
     hash(password)
         .then((hash) => {
             console.log(hash);
-            return db.addUser(first, last, email, hash)
-                .then(({rows}) => {
+            return db
+                .addUser(first, last, email, hash)
+                .then(({ rows }) => {
                     req.session.userId = rows[0].id;
                     res.json({
-                        success: true
+                        success: true,
                     });
                     console.log("req.session set");
                 })
                 .catch((err) => {
                     console.log("Error adding to database: ", err);
                     res.json({
-                        success: false
+                        success: false,
                     });
                 });
         })
-        .catch((err) => console.log("Error hashing the password for database: ", err));
+        .catch((err) =>
+            console.log("Error hashing the password for database: ", err)
+        );
 });
 
 app.post("/login", (req, res) => {
     // console.log(req.body);
     const { email, password } = req.body;
-    db.getPassword(email)
-        .then(({rows}) => {
-            const hashedPsw = rows[0].password;
-            compare(password, hashedPsw)
-                .then((booleanResult) => {
-                    if (booleanResult) {
-                        req.session.userId = rows[0].id;
-                        res.json({
-                            success: true
-                        });
-                    }
-                }).catch((err) => {
-                    console.log("Error logging: ", err);
+    db.getPassword(email).then(({ rows }) => {
+        const hashedPsw = rows[0].password;
+        compare(password, hashedPsw)
+            .then((booleanResult) => {
+                if (booleanResult) {
+                    req.session.userId = rows[0].id;
                     res.json({
-                        success: false
+                        success: true,
                     });
+                }
+            })
+            .catch((err) => {
+                console.log("Error logging: ", err);
+                res.json({
+                    success: false,
                 });
-        });
+            });
+    });
 });
 
 app.post("/password/reset/start", (req, res) => {
     // console.log(req.body);
     const { email } = req.body;
     db.mailExists(email)
-        .then(({rows}) => {
+        .then(({ rows }) => {
             if (rows.length == 1) {
                 const secretCode = cryptoRandomString({
-                    length: 6
+                    length: 6,
                 });
                 db.newCode(secretCode, rows[0].email)
                     .then(() => {
@@ -134,23 +135,27 @@ app.post("/password/reset/start", (req, res) => {
                             "carlosleret@gmail.com",
                             `Hey ${rows[0].first} ${rows[0].last}, here is your code! ${secretCode}`,
                             "Your new Code!"
-                        ).then(() => {
-                            console.log("Mail sent!");
-                            res.json({
-                                success: true
+                        )
+                            .then(() => {
+                                console.log("Mail sent!");
+                                res.json({
+                                    success: true,
+                                });
+                            })
+                            .catch((err) => {
+                                console.log("Error sending the eMail:", err);
+                                res.json({
+                                    success: false,
+                                });
                             });
-                        }).catch((err) => {
-                            console.log("Error sending the eMail:", err);
-                            res.json({
-                                success: false
-                            });
-                        });
-                    }).catch((err) => console.log("Error storing Code: ", err));
+                    })
+                    .catch((err) => console.log("Error storing Code: ", err));
             }
-        }).catch((err) => {
+        })
+        .catch((err) => {
             console.log("Error getting provided eMail: ", err);
             res.json({
-                success: false
+                success: false,
             });
         });
 });
@@ -159,31 +164,32 @@ app.post("/password/reset/confirm", (req, res) => {
     // console.log(req.body);
     const { email, code, newPassword } = req.body;
     db.getCode(email)
-        .then(({rows}) => {
+        .then(({ rows }) => {
             console.log("From Query:", rows);
             const storedCode = rows[0].code;
             if (storedCode == code) {
-                hash(newPassword)
-                    .then((hashedNew) => {
-                        console.log(hashedNew);
-                        db.updatePassword(email, hashedNew)
-                            .then(() => {
-                                console.log("DB updated!");
-                                res.json({
-                                    success: true
-                                });
-                            }).catch((err) => {
-                                console.log("Error while updating DB: ", err);
-                                res.json({
-                                    success: false
-                                });
+                hash(newPassword).then((hashedNew) => {
+                    console.log(hashedNew);
+                    db.updatePassword(email, hashedNew)
+                        .then(() => {
+                            console.log("DB updated!");
+                            res.json({
+                                success: true,
                             });
-                    });
+                        })
+                        .catch((err) => {
+                            console.log("Error while updating DB: ", err);
+                            res.json({
+                                success: false,
+                            });
+                        });
+                });
             }
-        }).catch((err) => {
+        })
+        .catch((err) => {
             console.log("Error matching codes", err);
             res.json({
-                success: false
+                success: false,
             });
         });
 });
@@ -191,13 +197,14 @@ app.post("/password/reset/confirm", (req, res) => {
 app.get("/user", (req, res) => {
     // console.log(req.session.userId);
     db.getUser(req.session.userId)
-        .then(({rows}) => {
+        .then(({ rows }) => {
             // console.log(rows);
             res.json(rows[0]);
-        }).catch((err) => {
+        })
+        .catch((err) => {
             console.log("Error requesting data from server: ", err);
             res.json({
-                success: false
+                success: false,
             });
         });
 });
@@ -207,25 +214,33 @@ app.post("/upload-picture", uploader.single("picture"), upload, (req, res) => {
     const fullUrl = `${s3Url}${filename}`;
     // console.log(fullUrl);
     db.updateProfilePic(fullUrl, req.session.userId)
-        .then(({rows}) => {
-            console.log("Pic stored in database and returned:", rows[0].profile_pic);
+        .then(({ rows }) => {
+            console.log(
+                "Pic stored in database and returned:",
+                rows[0].profile_pic
+            );
             const profile_pic = rows[0].profile_pic;
             res.json({
-                pic: profile_pic
+                pic: profile_pic,
             });
-        }).catch((err) => {
+        })
+        .catch((err) => {
             console.log("Error storing pic on db:", err);
             res.json({
-                success: false
+                success: false,
             });
         });
 });
 
 app.post("/update-bio", (req, res) => {
-    console.log(req.file);
-    res.json({
-        success: false
-    });
+    // console.log("Req body: ", req.body);
+    const { bio } = req.body;
+    db.updateBio(bio, req.session.userId)
+        .then(({rows}) => {
+            console.log("Data stored in db: ", rows);
+            res.json(rows);
+        })
+        .catch((err) => console.log("Error storing bio", err));
 });
 
 // NEVER COMMENT OUT THIS LINE OF CODE!!!

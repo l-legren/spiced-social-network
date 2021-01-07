@@ -28,21 +28,20 @@ export default class BioEditor extends Component {
         // We need to make a post request in here to update the value of our Bio in dabtabase?
         // Once succesful, call method passed down from the App component, updating bio in state in App
         const obj = this.state.newBio;
-        console.log("Sending request to the server!", this.state);
+        console.log("Sending request to the server!", this.state.newBio);
         instance
             .post("/update-bio", {
-                random: "Random line"
-            }).then(() => {
-                console.log("Got response from server");
+                bio: this.state.newBio
+            }).then(({data}) => {
+                console.log("Got response from server", data);
+                
             }).catch((err) => console.log("Error sending bio:", err));
-
-
     }
 
     render() { 
         return (
             <>
-                <h1>BIO EDITOR</h1>
+                <h1>{this.props.first} {this.props.last}</h1>
                 { this.state.textAreaVisible && (
                     <>
                         <textarea
@@ -54,7 +53,7 @@ export default class BioEditor extends Component {
                 )}
                 { !this.state.textAreaVisible && (
                     <>
-                        <h2>ACTUAL BIO FROM STATE!!</h2>
+                        <h2>{this.props.bio}</h2>
                         <button onClick={() => this.toggleTextarea()}>Edit your Bio!</button>
                     </>
                 )}
