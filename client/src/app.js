@@ -80,6 +80,7 @@ export default class App extends Component {
                         path="/user/:id"
                         render={(props) => (
                             <OtherProfile
+                                history={props.history}
                                 key={props.match.url}
                                 params={props.match.params}
                                 path={props.match.path}

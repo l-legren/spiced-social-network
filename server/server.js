@@ -248,7 +248,9 @@ app.get("/user-info/:id", (req,res) => {
     db.getUser(id)
         .then(({rows}) => {
             console.log(rows[0]);
-            res.json(rows[0]);
+            res.json({
+                data: rows[0], 
+                loggedId: req.session.userId});
         });
 });
 
