@@ -243,6 +243,15 @@ app.post("/update-bio", (req, res) => {
         .catch((err) => console.log("Error storing bio", err));
 });
 
+app.get("/user-info/:id", (req,res) => {
+    const { id } = req.params;
+    db.getUser(id)
+        .then(({rows}) => {
+            console.log(rows[0]);
+            res.json(rows[0]);
+        });
+});
+
 // NEVER COMMENT OUT THIS LINE OF CODE!!!
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));

@@ -10,10 +10,3 @@ if (location.pathname == "/welcome") {
 }
 
 ReactDOM.render(elem, document.querySelector("main"));
-
-
-// else if (location.pathname == "/login") {
-//     elem = <Login />;
-// } else if (location.pathname == "/reset-password") {
-//     elem = <ResetPassword />;
-// }  
