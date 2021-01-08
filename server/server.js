@@ -247,10 +247,16 @@ app.get("/user-info/:id", (req,res) => {
     const { id } = req.params;
     db.getUser(id)
         .then(({rows}) => {
-            console.log(rows[0]);
-            res.json({
-                data: rows[0], 
-                loggedId: req.session.userId});
+            // console.log(rows[0]);
+            if (rows[0] == undefined) {
+                res.json({
+                    success: false
+                });
+            } else {
+                res.json({
+                    data: rows[0], 
+                    loggedId: req.session.userId});
+            }
         });
 });
 
