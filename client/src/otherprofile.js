@@ -32,10 +32,11 @@ export default class OtherProfile extends Component {
 
     render() {
         console.log("Other Profile's state: ", this.state);
+
         return (
             <>
                 {this.state.userNotInDataBase ? (
-                    <>
+                    <div className="profile-section">
                         <h1>WE ARE SO SORRY!</h1>
                         <div>
                             The requested user doesn&apos;t exist in our
@@ -45,9 +46,9 @@ export default class OtherProfile extends Component {
                             src="/user_not_found.jpg"
                             alt="User not found"
                         ></img>
-                    </>
+                    </div>
                 ) : (
-                    <>
+                    <div className="profile-section">
                         <h1>
                             {this.state.first} {this.state.last}
                         </h1>
@@ -64,7 +65,7 @@ export default class OtherProfile extends Component {
                             ></img>
                         )}
                         {this.state.bio && <h2>{this.state.bio}</h2>}
-                    </>
+                    </div>
                 )}
             </>
         );

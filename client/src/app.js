@@ -55,7 +55,6 @@ export default class App extends Component {
 
     render() {
         console.log("State of App", this.state);
-
         return (
             <BrowserRouter>
                 <div>
