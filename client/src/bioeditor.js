@@ -25,7 +25,7 @@ export default class BioEditor extends Component {
     handleText(e) {
         console.log(e.target.value);
         this.setState({
-            newBio: e.target.value
+            newBio: e.target.value || this.props.bio
         });
     }
 

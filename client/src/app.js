@@ -53,6 +53,12 @@ export default class App extends Component {
         });
     }
 
+    closeModal() {
+        this.setState({
+            uploaderIsVisible: false
+        });
+    }
+
     render() {
         console.log("State of App", this.state);
         return (
@@ -61,21 +67,21 @@ export default class App extends Component {
                     <div className="nav-top">
                         <h1>App</h1>
                         <div className="pic-profile-wrapper">
-                            <div className="uploader-wrappper">
-                                <ProfilePic
-                                    toggleUploader={() => this.toggleUploader()}
-                                    profilePic={this.state.profilePic}
-                                    first={this.state.first}
-                                    last={this.state.last}
+                            <ProfilePic
+                                toggleUploader={() => this.toggleUploader()}
+                                profilePic={this.state.profilePic}
+                                first={this.state.first}
+                                last={this.state.last}
+                            />
+                            {this.state.uploaderIsVisible && (
+                                <Uploader
+                                    setImage={(urlProfilePic) =>
+                                        this.setImage(urlProfilePic)
+                                    }
+                                    closeModal={() => 
+                                        this.closeModal()}
                                 />
-                                {this.state.uploaderIsVisible && (
-                                    <Uploader
-                                        setImage={(urlProfilePic) =>
-                                            this.setImage(urlProfilePic)
-                                        }
-                                    />
-                                )}
-                            </div>
+                            )}
                             <h2>{this.state.first} Profile</h2>
                         </div>
                     </div>

@@ -44,6 +44,7 @@ export default class Uploader extends Component {
                     type="button"
                     value="Submit!"
                 />
+                <h2 onClick={this.props.closeModal} id="close">&times;</h2>
             </div>
         );
     } 
