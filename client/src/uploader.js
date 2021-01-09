@@ -1,5 +1,6 @@
 import { Component } from "react";
 import instance from "./axios";
+// import PublishIcon from '@material-ui/icons/Publish';
 
 export default class Uploader extends Component {
     constructor(props) {
@@ -27,14 +28,16 @@ export default class Uploader extends Component {
         console.log("State in Uploader: ", this.state);
         console.log("Props in Uploader: ", this.props);
         return (
-            <div>
+            <div className="file-wrapper">
+                <label htmlFor="file">New Photo</label>
                 <input
                     onChange={(e) => this.handleChange(e)}
-                    id="file-button"
+                    id="file"
                     type="file"
                     name="image"
                     accept="image/*"
                 />
+                {/* <PublishIcon /> */}
                 <input 
                     onClick={() => this.handleUpload()}
                     id="submit-button"

@@ -60,18 +60,24 @@ export default class App extends Component {
                 <div>
                     <div className="nav-top">
                         <h1>App</h1>
-                        <ProfilePic
-                            toggleUploader={() => this.toggleUploader()}
-                            profilePic={this.state.profilePic}
-                            first={this.state.first}
-                        />
-                        {this.state.uploaderIsVisible && (
-                            <Uploader
-                                setImage={(urlProfilePic) =>
-                                    this.setImage(urlProfilePic)
-                                }
-                            />
-                        )}
+                        <div className="pic-profile-wrapper">
+                            <div className="uploader-wrappper">
+                                <ProfilePic
+                                    toggleUploader={() => this.toggleUploader()}
+                                    profilePic={this.state.profilePic}
+                                    first={this.state.first}
+                                    last={this.state.last}
+                                />
+                                {this.state.uploaderIsVisible && (
+                                    <Uploader
+                                        setImage={(urlProfilePic) =>
+                                            this.setImage(urlProfilePic)
+                                        }
+                                    />
+                                )}
+                            </div>
+                            <h2>{this.state.first} Profile</h2>
+                        </div>
                     </div>
                     <div className="divisory"></div>
 
@@ -98,6 +104,7 @@ export default class App extends Component {
                                 last={this.state.last}
                                 profilePic={this.state.profilePic}
                                 bio={this.state.bio}
+                                toggleUploader={() => this.toggleUploader()}
                                 setBio={(newBio) => this.setBio(newBio)}
                             />
                         )}

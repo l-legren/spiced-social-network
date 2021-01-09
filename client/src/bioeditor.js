@@ -45,17 +45,16 @@ export default class BioEditor extends Component {
 
     render() { 
         return (
-            <>
+            <div className="edit-bio-wrapper">
                 <h1>{this.props.first} {this.props.last}</h1>
                 { this.state.textAreaVisible && (
-                    <>
+                    <div className="textarea-wrapper">
                         <textarea
                             onChange={(e) => this.handleText(e)}
-                        >
-                            {this.props.bio}
-                        </textarea>
+                            defaultValue={this.props.bio}
+                        />
                         <button onClick={() => this.uploadBio()} >Save Bio!</button>
-                    </>
+                    </div>
                 )}
                 { !this.state.textAreaVisible && (
                     <>
@@ -73,7 +72,7 @@ export default class BioEditor extends Component {
                         )}
                     </>
                 )}
-            </>
+            </div>
         );
     }
 }
