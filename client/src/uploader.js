@@ -67,7 +67,7 @@ export default class Uploader extends Component {
                     />
                 ) }
                 <span onClick={this.props.closeModal} id="close">&times;</span>
-                {/* <LogOut /> */}
+                <LogOut />
             </div>
         );
     } 

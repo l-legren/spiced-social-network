@@ -79,6 +79,7 @@ button {
     position: relative;
     background-color: black;
     left: 20px;
+    bottom: 10px;
     justify-self: center;
     align-self: center;
     border-radius: 5px;
@@ -86,6 +87,28 @@ button {
     border: 1px solid black;
     padding: 3px;
     text-align: left;
+}
+
+#logout {
+    z-index: 2;
+    position: relative;
+    top: 50px;
+    left: 120px;
+    color: black;
+    cursor: pointer;
+}
+
+.logout-modal {
+    position: absolute;
+    bottom: 5px;
+    right: 5px
+}
+
+.MuiSvgIcon-root {
+    font-size: 2em;
+    position: relative;
+    top: 13px;
+    left: 5px;
 }
 
 .pic-profile-wrapper h2 {

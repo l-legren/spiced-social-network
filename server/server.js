@@ -61,6 +61,14 @@ app.use(express.static(path.join(__dirname, "..", "client", "public")));
 
 // ROUTES!
 
+app.get("/", (req, res) => {
+    if (!req.session.userId) {
+        res.redirect("/welcome");
+    } else {
+        res.sendFile(path.join(__dirname, "..", "client", "index.html"));
+    }
+});
+
 app.get("/welcome", (req, res) => {
     if (req.session.userId) {
         res.redirect("/");

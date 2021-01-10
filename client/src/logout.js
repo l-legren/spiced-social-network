@@ -1,9 +1,6 @@
 import { Component } from 'react';
 import instance from "./axios";
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { Redirect } from 'react-router-dom';
-import {ReactDOM} from "react";
-// import Welcome from "./welcome";
 
 export default class Logout extends Component {
     constructor(props) {
@@ -18,21 +15,17 @@ export default class Logout extends Component {
         instance.get("/log-out")
             .then(() => {
                 console.log("Logged out succesfully!");
-                this.setState({
-                    redirect: true
-                });
+                location.replace("/");
             })
             .catch((err) => console.log("Error logging out", err));
     }
 
     render() { 
         return (
-            <>
-                <ExitToAppIcon onClick={() => this.handleLogOut()} />
-                { this.state.redirect && (
-                    <Redirect to="/welcome" />
-                ) }
-            </>
+            <div style={{display: "inline-flex"}} id="logout" onClick={() => this.handleLogOut()}>
+                <h3>Log Out</h3>
+                <ExitToAppIcon />
+            </div>
         );
     }
 }

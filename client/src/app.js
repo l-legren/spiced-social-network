@@ -1,11 +1,11 @@
 import { Component } from "react";
+import { BrowserRouter, Route } from "react-router-dom";
+import axios from "axios";
 import ProfilePic from "./profilepic";
 import Uploader from "./uploader";
-import axios from "axios";
 import Profile from "./profile";
-import styled from "styled-components";
-import { BrowserRouter, Route } from "react-router-dom";
 import OtherProfile from "./otherprofile";
+import LogOut from "./logout";
 
 export default class App extends Component {
     constructor() {
@@ -69,6 +69,7 @@ export default class App extends Component {
                             <h1>...mySocial</h1>
                         </div>
                         <div className="pic-profile-wrapper">
+                            <LogOut style={{position: "relative"}}/> 
                             <div id="name-container">
                                 <h2>{this.state.first}</h2>
                             </div>
