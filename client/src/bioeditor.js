@@ -46,7 +46,6 @@ export default class BioEditor extends Component {
     render() { 
         return (
             <div className="edit-bio-wrapper">
-                <h1>{this.props.first} {this.props.last}</h1>
                 { this.state.textAreaVisible && (
                     <div className="textarea-wrapper">
                         <textarea

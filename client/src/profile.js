@@ -5,7 +5,7 @@ export default function Profile({ first, last, profilePic, bio, setBio, toggleUp
     // console.log("These are my props: ", props);
     return (
         <div className="profile-section">
-            <h1>USER PROFILE COMPONENT</h1>
+            <h1>{first} {last}</h1>
             <ProfilePic
                 first={first}
                 profilePic={profilePic}

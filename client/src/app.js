@@ -65,8 +65,13 @@ export default class App extends Component {
             <BrowserRouter>
                 <div>
                     <div className="nav-top">
-                        <h1>App</h1>
+                        <div>
+                            <h1>...mySocial</h1>
+                        </div>
                         <div className="pic-profile-wrapper">
+                            <div id="name-container">
+                                <h2>{this.state.first}</h2>
+                            </div>
                             <ProfilePic
                                 toggleUploader={() => this.toggleUploader()}
                                 profilePic={this.state.profilePic}
@@ -82,39 +87,39 @@ export default class App extends Component {
                                         this.closeModal()}
                                 />
                             )}
-                            <h2>{this.state.first} Profile</h2>
                         </div>
                     </div>
                     <div className="divisory"></div>
+                    <div className="profiles">
+                        <Route
+                            path="/user/:id"
+                            render={(props) => (
+                                <OtherProfile
+                                    history={props.history}
+                                    key={props.match.url}
+                                    params={props.match.params}
+                                    path={props.match.path}
+                                    isExact={props.match.isExact}
+                                    url={props.match.url}
+                                />
+                            )}
+                        />
 
-                    <Route
-                        path="/user/:id"
-                        render={(props) => (
-                            <OtherProfile
-                                history={props.history}
-                                key={props.match.url}
-                                params={props.match.params}
-                                path={props.match.path}
-                                isExact={props.match.isExact}
-                                url={props.match.url}
-                            />
-                        )}
-                    />
-
-                    <Route
-                        exact
-                        path="/"
-                        render={() => (
-                            <Profile
-                                first={this.state.first}
-                                last={this.state.last}
-                                profilePic={this.state.profilePic}
-                                bio={this.state.bio}
-                                toggleUploader={() => this.toggleUploader()}
-                                setBio={(newBio) => this.setBio(newBio)}
-                            />
-                        )}
-                    ></Route>
+                        <Route
+                            exact
+                            path="/"
+                            render={() => (
+                                <Profile
+                                    first={this.state.first}
+                                    last={this.state.last}
+                                    profilePic={this.state.profilePic}
+                                    bio={this.state.bio}
+                                    toggleUploader={() => this.toggleUploader()}
+                                    setBio={(newBio) => this.setBio(newBio)}
+                                />
+                            )}
+                        ></Route>
+                    </div>
                 </div>
             </BrowserRouter>
         );
