@@ -292,6 +292,10 @@ app.get("/get-most-recent-users", (req, res) => {
         });
 });
 
+app.get("/users-match/:match", (req, res) => {
+    console.log("Server looking for matches!", req.params);
+});
+
 // NEVER COMMENT OUT THIS LINE OF CODE!!!
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
