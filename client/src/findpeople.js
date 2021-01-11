@@ -9,6 +9,7 @@ const FindPeople = () => {
     useEffect(() => {
         console.log("Input:", val);
         let abort;
+        setNoMatches(false);
         (async () => {
             if (!val) {
                 const { data } = await axios.get("get-most-recent-users");
