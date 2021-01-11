@@ -277,6 +277,21 @@ app.get("/log-out", (req, res) => {
     });
 });
 
+app.get("/get-most-recent-users", (req, res) => {
+    console.log("request done");
+    db.threeMostRecent()
+        .then(({rows}) => {
+            console.log("3 most recent users: ", rows);
+            res.json(rows);
+        })
+        .catch((err) => {
+            console.log("Error in db query: ". err);
+            res.json({
+                success: false
+            });
+        });
+});
+
 // NEVER COMMENT OUT THIS LINE OF CODE!!!
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));

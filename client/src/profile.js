@@ -1,6 +1,7 @@
 import BioEditor from "./bioeditor";
 import ProfilePic from "./profilepic";
 
+
 export default function Profile({ first, last, profilePic, bio, setBio, toggleUploader }) {
     // console.log("These are my props: ", props);
     return (

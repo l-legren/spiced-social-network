@@ -5,6 +5,10 @@ font-family: 'East Sea Dokdo', cursive;
 font-family: 'Dancing Script', cursive;
 font-family: 'Open Sans', sans-serif; */
 
+* {
+    box-sizing: border-box;
+}
+
 body {
     background-color: ghostwhite;
     font-family: 'Open Sans', sans-serif;;
@@ -89,11 +93,16 @@ button {
     text-align: left;
 }
 
+#name-container h2 {
+    position: relative;
+    bottom: 5px;
+}
+
 #logout {
     z-index: 2;
     position: relative;
-    top: 50px;
-    left: 120px;
+    top: 40px;
+    left: 125px;
     color: black;
     cursor: pointer;
 }

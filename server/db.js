@@ -57,6 +57,21 @@ module.exports.getUser = (id) => {
     return db.query(q, params);
 };
 
+module.exports.threeMostRecent = () => {
+    const q = `
+    SELECT * FROM users ORDER BY id DESC LIMIT 3`;
+
+    return db.query(q);
+};
+
+module.exports.findUsers = (val) => {
+    const q = `SELECT * FROM users
+    WHERE first ILIKE ($1)`;
+    const params = [val + '%'];
+
+    return db.query(q, params);
+};
+
 // UPDATING
 
 module.exports.updatePassword = (email, password) => {

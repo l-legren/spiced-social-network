@@ -6,6 +6,7 @@ import Uploader from "./uploader";
 import Profile from "./profile";
 import OtherProfile from "./otherprofile";
 import LogOut from "./logout";
+import FindPeople from "./findpeople";
 
 export default class App extends Component {
     constructor() {
@@ -55,7 +56,7 @@ export default class App extends Component {
 
     closeModal() {
         this.setState({
-            uploaderIsVisible: false
+            uploaderIsVisible: false,
         });
     }
 
@@ -69,7 +70,7 @@ export default class App extends Component {
                             <h1>...mySocial</h1>
                         </div>
                         <div className="pic-profile-wrapper">
-                            <LogOut style={{position: "relative"}}/> 
+                            <LogOut style={{ position: "relative" }} />
                             <div id="name-container">
                                 <h2>{this.state.first}</h2>
                             </div>
@@ -84,8 +85,7 @@ export default class App extends Component {
                                     setImage={(urlProfilePic) =>
                                         this.setImage(urlProfilePic)
                                     }
-                                    closeModal={() => 
-                                        this.closeModal()}
+                                    closeModal={() => this.closeModal()}
                                 />
                             )}
                         </div>
@@ -105,7 +105,6 @@ export default class App extends Component {
                                 />
                             )}
                         />
-
                         <Route
                             exact
                             path="/"
@@ -120,6 +119,13 @@ export default class App extends Component {
                                 />
                             )}
                         ></Route>
+                        <Route
+                            
+                            path="/users"
+                            render={() => {
+                                return <FindPeople />;
+                            }}
+                        />
                     </div>
                 </div>
             </BrowserRouter>
