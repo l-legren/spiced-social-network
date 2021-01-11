@@ -293,7 +293,19 @@ app.get("/get-most-recent-users", (req, res) => {
 });
 
 app.get("/users-match/:match", (req, res) => {
-    console.log("Server looking for matches!", req.params);
+    const { match } = req.params;
+    console.log(match);
+    db.matchUsers(match)
+        .then(({rows}) => {
+            console.log("Matched Users: ", rows);
+            res.json(rows);
+        })
+        .catch((err) => {
+            console.log("Error in db request: ", err);
+            res.json({
+                success: false
+            });
+        });
 });
 
 // NEVER COMMENT OUT THIS LINE OF CODE!!!

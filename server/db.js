@@ -64,9 +64,9 @@ module.exports.threeMostRecent = () => {
     return db.query(q);
 };
 
-module.exports.findUsers = (val) => {
+module.exports.matchUsers = (val) => {
     const q = `SELECT * FROM users
-    WHERE first ILIKE ($1)`;
+    WHERE first ILIKE $1`;
     const params = [val + '%'];
 
     return db.query(q, params);
