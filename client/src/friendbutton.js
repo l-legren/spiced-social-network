@@ -15,11 +15,16 @@ const FriendButton = ({ otherId }) => {
                 if (data.length < 1) {
                     setFriendStatus(TEXT_BUTTON.NO_FRIENDS);
                 } else {
+                    console.log(data);
                     if (data[0].friendship) {
                         setFriendStatus(TEXT_BUTTON.FRIENDS);
-                    } else {
-                        setFriendStatus(TEXT_BUTTON.PENDING_REQUEST);
-                    }
+                    } else if (!data[0].friendship) {
+                        if (data[0].receiverId == otherId) {
+                            setFriendStatus(TEXT_BUTTON.PENDING_REQUEST);
+                        } else {
+                            setFriendStatus(TEXT_BUTTON.ACCEPT_FRIENDSHIP);
+                        }
+                    } 
                 }
             } catch {
                 (err) =>
@@ -58,6 +63,8 @@ const FriendButton = ({ otherId }) => {
             setTextButton("Unfriend!");
         } else if (status == TEXT_BUTTON.PENDING_REQUEST) {
             setTextButton("Request sent!");
+        } else if (status == TEXT_BUTTON.ACCEPT_FRIENDSHIP) {
+            setTextButton(TEXT_BUTTON.ACCEPT_FRIENDSHIP);
         }
     };
 
@@ -76,4 +83,5 @@ const TEXT_BUTTON = {
     NO_FRIENDS: "No friends",
     FRIENDS: "Friends",
     PENDING_REQUEST: "Pending request",
+    ACCEPT_FRIENDSHIP: "Accept request"
 };
