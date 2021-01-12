@@ -238,48 +238,48 @@ app.post("/upload-picture", uploader.single("picture"), upload, (req, res) => {
 app.post("/update-bio", (req, res) => {
     const { bio } = req.body;
     db.updateBio(bio, req.session.userId)
-        .then(({rows}) => {
+        .then(({ rows }) => {
             console.log("Data stored in db: ", rows);
             res.json(rows);
         })
         .catch((err) => console.log("Error storing bio", err));
 });
 
-app.get("/user-info/:id", (req,res) => {
+app.get("/user-info/:id", (req, res) => {
     const { id } = req.params;
-    db.getUser(id)
-        .then(({rows}) => {
-            if (rows[0] == undefined) {
-                res.json({
-                    success: false
-                });
-            } else {
-                res.json({
-                    data: rows[0], 
-                    loggedId: req.session.userId});
-            }
-        });
+    db.getUser(id).then(({ rows }) => {
+        if (rows[0] == undefined) {
+            res.json({
+                success: false,
+            });
+        } else {
+            res.json({
+                data: rows[0],
+                loggedId: req.session.userId,
+            });
+        }
+    });
 });
 
 app.get("/log-out", (req, res) => {
     req.session.userId = null;
     console.log(req.session.userId);
     res.json({
-        success: true
+        success: true,
     });
 });
 
 app.get("/get-most-recent-users", (req, res) => {
     console.log("request done");
     db.threeMostRecent()
-        .then(({rows}) => {
+        .then(({ rows }) => {
             console.log("3 most recent users: ", rows);
             res.json(rows);
         })
         .catch((err) => {
-            console.log("Error in db query: ". err);
+            console.log("Error in db query: ".err);
             res.json({
-                success: false
+                success: false,
             });
         });
 });
@@ -288,14 +288,14 @@ app.get("/users-match/:match", (req, res) => {
     const { match } = req.params;
     console.log(match);
     db.matchUsers(match)
-        .then(({rows}) => {
+        .then(({ rows }) => {
             console.log("Matched Users: ", rows);
             res.json(rows);
         })
         .catch((err) => {
             console.log("Error in db request: ", err);
             res.json({
-                success: false
+                success: false,
             });
         });
 });
@@ -303,10 +303,47 @@ app.get("/users-match/:match", (req, res) => {
 app.get("/friend-request/:other", (req, res) => {
     const { other } = req.params;
     dbf.areFriends(other, req.session.userId)
-        .then(({rows}) => {
-            console.log(rows);
+        .then(({ rows }) => {
             res.json(rows);
-        }).catch((err) => console.log("Error fetching from db: ", err));
+        })
+        .catch((err) => console.log("Error fetching from db: ", err));
+});
+
+app.post("/change-status", (req, res) => {
+    console.log(req.body);
+    const { otherUserId, status } = req.body;
+    if (status == TEXT_BUTTON.FRIENDS) {
+        dbf.unfriend(req.session.userId, otherUserId)
+            .then(() => {
+                console.log("Removed from friends");
+                res.json({
+                    status: TEXT_BUTTON.NO_FRIENDS,
+                });
+            })
+            .catch((err) => console.log("Error removing from DB: ", err));
+    } else if (status == TEXT_BUTTON.NO_FRIENDS) {
+        dbf.requestFriendship(req.session.userId, otherUserId)
+            .then(() => {
+                console.log("Friend request sent!");
+                res.json({
+                    status: TEXT_BUTTON.PENDING_REQUEST,
+                });
+            })
+            .catch((err) =>
+                console.log("Error requesting friendship in DB: ", err)
+            );
+    } else if (status == TEXT_BUTTON.PENDING_REQUEST) {
+        dbf.acceptRequest(otherUserId, req.session.userId)
+            .then(() => {
+                console.log("Friendship request accepted");
+                res.json({
+                    status: TEXT_BUTTON.FRIENDS,
+                });
+            })
+            .catch((err) =>
+                console.log("Error accepting friendship in DB: ", err)
+            );
+    }
 });
 
 // NEVER COMMENT OUT THIS LINE OF CODE!!!
@@ -321,5 +358,5 @@ app.listen(process.env.PORT || 3001, function () {
 const TEXT_BUTTON = {
     NO_FRIENDS: "No friends",
     FRIENDS: "Friends",
-    PENDING_REQUEST: "Pending request"
+    PENDING_REQUEST: "Pending request",
 };

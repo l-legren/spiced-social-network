@@ -1,19 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
-import axios from "axios";
+// import axios from "axios";
+import instance from "./axios";
 
-const FriendButton = ({otherId}) => {
-
+const FriendButton = ({ otherId }) => {
     const [friendStatus, setFriendStatus] = useState("No Friends");
     const [textButton, setTextButton] = useState("");
 
     useEffect(() => {
-        console.log(`This is the actual friend status with ${otherId}`, friendStatus);
         (async () => {
             definingTextbutton(friendStatus);
             try {
-                const { data } = await axios.get(`/friend-request/${otherId}`);
-                console.log("Response from Server", data);
+                const { data } = await instance.get(`/friend-request/${otherId}`);
                 if (data.length < 1) {
                     setFriendStatus(TEXT_BUTTON.NO_FRIENDS);
                 } else {
@@ -24,19 +22,31 @@ const FriendButton = ({otherId}) => {
                     }
                 }
             } catch {
-                ((err) => console.log("Error requesting info about friendship", err));
+                (err) =>
+                    console.log("Error requesting info about friendship", err);
             }
         })();
     }, [friendStatus, textButton]);
-    
+
     const handleClick = () => {
-        console.log("clicking on request");
         (async () => {
             try {
-                const { data } = axios.post("/change-status", { otherUserId: otherId});
+                const { data } = await instance.post("/change-status", {
+                    otherUserId: otherId,
+                    status: friendStatus,
+                });
                 console.log("Data Response from the server: ", data);
+                if (data.status == TEXT_BUTTON.NO_FRIENDS) {
+                    setFriendStatus(TEXT_BUTTON.NO_FRIENDS);
+                } else if (data.status == TEXT_BUTTON.PENDING_REQUEST) {
+                    setFriendStatus(TEXT_BUTTON.PENDING_REQUEST);
+                } else if (data.status == TEXT_BUTTON.FRIENDS) {
+                    setFriendStatus(TEXT_BUTTON.FRIENDS);
+                }
             } catch {
-                console.log((err) => console.log("Error handling request: ", err));
+                console.log((err) =>
+                    console.log("Error handling request: ", err)
+                );
             }
         })();
     };
@@ -53,15 +63,17 @@ const FriendButton = ({otherId}) => {
 
     return (
         <>
-            <Button variant="outline-primary" onClick={handleClick}>{textButton}</Button>
+            <Button variant="outline-primary" onClick={handleClick}>
+                {textButton}
+            </Button>
         </>
     );
 };
- 
+
 export default FriendButton;
 
 const TEXT_BUTTON = {
     NO_FRIENDS: "No friends",
     FRIENDS: "Friends",
-    PENDING_REQUEST: "Pending request"
+    PENDING_REQUEST: "Pending request",
 };
