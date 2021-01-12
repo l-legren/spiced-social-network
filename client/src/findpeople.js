@@ -12,18 +12,26 @@ const FindPeople = () => {
         setNoMatches(false);
         (async () => {
             if (!val) {
-                const { data } = await axios.get("get-most-recent-users");
-                if (!abort) {
-                    setUsers(data);
-                }
-            } else {
-                const { data } = await axios.get(`/users-match/${val}`);
-                if (data.length >= 1) {
+                try {
+                    const { data } = await axios.get("get-most-recent-users");
                     if (!abort) {
                         setUsers(data);
                     }
-                } else {
-                    setNoMatches(true);
+                } catch {
+                    ((err) => console.log("Error getting most recent users", err));
+                }
+            } else {
+                try {
+                    const { data } = await axios.get(`/users-match/${val}`);
+                    if (data.length >= 1) {
+                        if (!abort) {
+                            setUsers(data);
+                        }
+                    } else {
+                        setNoMatches(true);
+                    }
+                } catch {
+                    ((err) => console.log("Error getting matched users", err));
                 }
             }
         })();

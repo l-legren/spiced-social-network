@@ -27,3 +27,7 @@ CREATE TABLE friendship (
     friendship BOOLEAN DEFAULT false,
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+
+INSERT INTO friendship (requester_id, receiver_id, friendship) VALUES (4, 9, true);
+INSERT INTO friendship (requester_id, receiver_id, friendship) VALUES (7, 8, true);

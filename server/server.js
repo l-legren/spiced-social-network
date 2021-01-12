@@ -299,6 +299,10 @@ app.get("/users-match/:match", (req, res) => {
         });
 });
 
+app.get("/friend-request/:other-id", (req, res) => {
+    console.log(req.params);
+});
+
 // NEVER COMMENT OUT THIS LINE OF CODE!!!
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
