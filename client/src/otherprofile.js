@@ -11,11 +11,11 @@ export default class OtherProfile extends Component {
     }
 
     componentDidMount() {
-        console.log("Mounted, id: ", this.props.params.id);
+        // console.log("Mounted, id: ", this.props.params.id);
         instance
             .get("/user-info/" + this.props.params.id)
             .then(({ data }) => {
-                console.log("Data from server: ", data);
+                // console.log("Data from server: ", data);
                 if (this.props.params.id == data.loggedId) {
                     this.props.history.push("/");
                 }
@@ -32,7 +32,7 @@ export default class OtherProfile extends Component {
     }
 
     render() {
-        console.log("Other Profile's state: ", this.state);
+        // console.log("Other Profile's state: ", this.state);
 
         return (
             <>
@@ -66,12 +66,11 @@ export default class OtherProfile extends Component {
                             ></img>
                         )}
                         {this.state.bio && <h2>{this.state.bio}</h2>}
-                        <FriendButton 
-                            otherFirst={this.state.first}
-                            otherLast={this.state.last}
-                            otherPic={this.state.profile_pic}
-                            otherId={this.state.id}
-                        />
+                        {this.state.id && (
+                            <FriendButton 
+                                otherId={this.state.id}
+                            />
+                        )}
                     </div>
                 )}
             </>

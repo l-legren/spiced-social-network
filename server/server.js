@@ -7,6 +7,7 @@ process.env.NODE_ENV === "production"
     : (secrets = require("./secrets"));
 const cookieSession = require("cookie-session");
 const db = require("./db.js");
+const dbf = require("./friendship-db");
 // csurf create tokens in the requests objects!!
 const csurf = require("csurf");
 const { hash, compare } = require("./bc.js");
@@ -299,8 +300,13 @@ app.get("/users-match/:match", (req, res) => {
         });
 });
 
-app.get("/friend-request/:other-id", (req, res) => {
-    console.log(req.params);
+app.get("/friend-request/:other", (req, res) => {
+    const { other } = req.params;
+    dbf.areFriends(other, req.session.userId)
+        .then(({rows}) => {
+            console.log(rows);
+            res.json(rows);
+        }).catch((err) => console.log("Error fetching from db: ", err));
 });
 
 // NEVER COMMENT OUT THIS LINE OF CODE!!!
@@ -311,3 +317,9 @@ app.get("*", function (req, res) {
 app.listen(process.env.PORT || 3001, function () {
     console.log("I'm listening.");
 });
+
+const TEXT_BUTTON = {
+    NO_FRIENDS: "No friends",
+    FRIENDS: "Friends",
+    PENDING_REQUEST: "Pending request"
+};

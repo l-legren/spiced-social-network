@@ -1,5 +1,5 @@
 export default function ProfilePic({ profilePic, toggleUploader, first }) {
-    console.log("ProfilePic in Component:", profilePic);
+    // console.log("ProfilePic in Component:", profilePic);
     return (
         <>
             { profilePic && (
