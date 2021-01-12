@@ -6,10 +6,16 @@ const FriendButton = ({otherFirst, otherLast, otherPic, otherId}) => {
 
     const [friendStatus, setFriendStatus] = useState("unfriend");
 
-    console.log(otherFirst, otherLast);
-
     useEffect(() => {
         console.log(`This is the actual friend status with ${otherId}`, friendStatus);
+        (async () => {
+            try {
+                const { data } = await axios.get(`/friend-request/${otherId}`);
+                console.log(data);
+            } catch {
+                ((err) => console.log("Error requesting info about friendship", err));
+            }
+        })();
     }, [otherId]);
     
     const handleClick = () => {
