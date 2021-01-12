@@ -60,13 +60,13 @@ export default class BioEditor extends Component {
                         { this.props.bio && (
                             <>
                                 <h2>{this.props.bio}</h2>
-                                <button onClick={() => this.toggleTextarea()}>EDIT BIO!</button>
+                                <button id="edit-bio" onClick={() => this.toggleTextarea()}>EDIT BIO!</button>
                             </>
                         )}
                         { !this.props.bio && (
                             <>
                                 <h2>{this.props.bio}</h2>
-                                <button onClick={() => this.toggleTextarea()}>ADD BIO!</button>
+                                <button id="add-bio" onClick={() => this.toggleTextarea()}>ADD BIO!</button>
                             </>
                         )}
                     </>

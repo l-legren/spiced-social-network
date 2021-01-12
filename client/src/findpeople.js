@@ -38,6 +38,7 @@ const FindPeople = () => {
         <>
             <h2>{`Find people in our community`}</h2>
             <input
+                id="find-users"
                 type="text"
                 placeholder="Enter name..."
                 onChange={(e) => setVal(e.target.value)}
@@ -59,7 +60,7 @@ const FindPeople = () => {
                                     src={user.profile_pic}
                                     alt={`Photo of ${user.first} ${user.last}`}
                                 ></img>
-                                {`${user.first} ${user.last}`}
+                                <h2>{`${user.first} ${user.last}`}</h2>
                             </a>
                         </li>
                     ))}
@@ -67,7 +68,7 @@ const FindPeople = () => {
             )
                 : <>
                     <h2>
-                        SORRY, NO MATCHES FOUND!
+                        SORRY, NO MATCHES FOR <span style={{color: "red"}}>{val.toUpperCase()}</span>
                     </h2>
                 </>}
         </>

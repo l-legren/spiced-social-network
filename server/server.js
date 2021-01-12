@@ -105,7 +105,6 @@ app.post("/registration", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-    // console.log(req.body);
     const { email, password } = req.body;
     db.getPassword(email).then(({ rows }) => {
         const hashedPsw = rows[0].password;
@@ -128,7 +127,6 @@ app.post("/login", (req, res) => {
 });
 
 app.post("/password/reset/start", (req, res) => {
-    // console.log(req.body);
     const { email } = req.body;
     db.mailExists(email)
         .then(({ rows }) => {
@@ -169,7 +167,6 @@ app.post("/password/reset/start", (req, res) => {
 });
 
 app.post("/password/reset/confirm", (req, res) => {
-    // console.log(req.body);
     const { email, code, newPassword } = req.body;
     db.getCode(email)
         .then(({ rows }) => {
@@ -203,10 +200,8 @@ app.post("/password/reset/confirm", (req, res) => {
 });
 
 app.get("/user", (req, res) => {
-    // console.log(req.session.userId);
     db.getUser(req.session.userId)
         .then(({ rows }) => {
-            // console.log(rows);
             res.json(rows[0]);
         })
         .catch((err) => {
@@ -220,7 +215,6 @@ app.get("/user", (req, res) => {
 app.post("/upload-picture", uploader.single("picture"), upload, (req, res) => {
     const { filename } = req.file;
     const fullUrl = `${s3Url}${filename}`;
-    // console.log(fullUrl);
     db.updateProfilePic(fullUrl, req.session.userId)
         .then(({ rows }) => {
             console.log(
@@ -241,7 +235,6 @@ app.post("/upload-picture", uploader.single("picture"), upload, (req, res) => {
 });
 
 app.post("/update-bio", (req, res) => {
-    // console.log("Req body: ", req.body);
     const { bio } = req.body;
     db.updateBio(bio, req.session.userId)
         .then(({rows}) => {
@@ -255,7 +248,6 @@ app.get("/user-info/:id", (req,res) => {
     const { id } = req.params;
     db.getUser(id)
         .then(({rows}) => {
-            // console.log(rows[0]);
             if (rows[0] == undefined) {
                 res.json({
                     success: false
@@ -269,7 +261,6 @@ app.get("/user-info/:id", (req,res) => {
 });
 
 app.get("/log-out", (req, res) => {
-    // console.log("Talking to server!");
     req.session.userId = null;
     console.log(req.session.userId);
     res.json({

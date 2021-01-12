@@ -1,6 +1,6 @@
 import { Component } from "react";
 import instance from "./axios";
-import LogOut from "./logout";
+// import LogOut from "./logout";
 // import PublishIcon from '@material-ui/icons/Publish';
 
 export default class Uploader extends Component {
@@ -10,7 +10,6 @@ export default class Uploader extends Component {
     }
 
     handleChange(e) {
-        // console.log(e.target.files[0]);
         const file = e.target.files[0];
         const reader = new FileReader();
         const url = reader.readAsDataURL(file);
@@ -57,7 +56,6 @@ export default class Uploader extends Component {
                         </div>
                     ) }
                 </div>
-                {/* <PublishIcon /> */}
                 { this.state.preview && (
                     <input 
                         onClick={() => this.handleUpload()}
@@ -67,7 +65,6 @@ export default class Uploader extends Component {
                     />
                 ) }
                 <span onClick={this.props.closeModal} id="close">&times;</span>
-                <LogOut />
             </div>
         );
     } 
