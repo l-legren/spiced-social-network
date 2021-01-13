@@ -12,6 +12,7 @@ const FriendButton = ({ otherId }) => {
             definingTextbutton(friendStatus);
             try {
                 const { data } = await instance.get(`/friend-request/${otherId}`);
+                // console.log("Data from server: ", data);
                 if (data.length < 1) {
                     setFriendStatus(TEXT_BUTTON.NO_FRIENDS);
                 } else {
@@ -19,7 +20,7 @@ const FriendButton = ({ otherId }) => {
                     if (data[0].friendship) {
                         setFriendStatus(TEXT_BUTTON.FRIENDS);
                     } else if (!data[0].friendship) {
-                        if (data[0].receiverId == otherId) {
+                        if (data[0].receiver_id == otherId) {
                             setFriendStatus(TEXT_BUTTON.PENDING_REQUEST);
                         } else {
                             setFriendStatus(TEXT_BUTTON.ACCEPT_FRIENDSHIP);

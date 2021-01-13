@@ -6,8 +6,8 @@ const db = spicedPg(
 
 module.exports.areFriends = (otherId, loggedId) => {
     const q = `SELECT * FROM friendship
-    WHERE (receiver_id = $1)
-    AND (requester_id = $2)`;
+    WHERE (receiver_id = $1 AND requester_id = $2)
+    OR (receiver_id = $2 AND requester_id = $1)`;
     const params = [otherId, loggedId];
 
     return db.query(q, params);
