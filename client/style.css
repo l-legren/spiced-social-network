@@ -58,6 +58,7 @@ button {
 }
 
 .nav-top img {
+    z-index: 3;
     width: 100px;
     height: 100px;
     border-radius: 50%;
@@ -73,6 +74,7 @@ button {
 }
 
 .pic-profile-wrapper {
+    z-index: 2;
     position:relative;
     right: 50px;
     display: flex;
@@ -80,7 +82,7 @@ button {
 }
 
 #name-container {
-    z-index: -1;
+    z-index: 2;
     width: 170px;
     height: 30px;
     position: relative;
@@ -97,6 +99,7 @@ button {
 }
 
 #name-container h2 {
+    z-index: 2;
     position: relative;
     bottom: 5px;
 }

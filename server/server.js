@@ -312,7 +312,11 @@ app.get("/friend-request/:other", (req, res) => {
 app.post("/change-status", (req, res) => {
     console.log(req.body);
     const { otherUserId, status } = req.body;
-    if (status == TEXT_BUTTON.FRIENDS) {
+
+    if (
+        status == TEXT_BUTTON.FRIENDS ||
+        status == TEXT_BUTTON.PENDING_REQUEST
+    ) {
         dbf.unfriend(req.session.userId, otherUserId)
             .then(() => {
                 console.log("Removed from friends");
@@ -332,7 +336,7 @@ app.post("/change-status", (req, res) => {
             .catch((err) =>
                 console.log("Error requesting friendship in DB: ", err)
             );
-    } else if (status == TEXT_BUTTON.PENDING_REQUEST) {
+    } else if (status == TEXT_BUTTON.ACCEPT_FRIENDSHIP) {
         dbf.acceptRequest(otherUserId, req.session.userId)
             .then(() => {
                 console.log("Friendship request accepted");
@@ -343,6 +347,19 @@ app.post("/change-status", (req, res) => {
             .catch((err) =>
                 console.log("Error accepting friendship in DB: ", err)
             );
+    }
+});
+
+app.post("/reject-request", (req, res) => {
+    const { reject, otherUserId } = req.body;
+    if (reject) {
+        dbf.unfriend(req.session.userId, otherUserId)
+            .then(() => {
+                console.log("Removed from Database");
+                res.json({
+                    success: true
+                });
+            }).catch((err) => console.log("Error removing from Database: ", err));
     }
 });
 
@@ -359,4 +376,5 @@ const TEXT_BUTTON = {
     NO_FRIENDS: "No friends",
     FRIENDS: "Friends",
     PENDING_REQUEST: "Pending request",
+    ACCEPT_FRIENDSHIP: "Accept request",
 };

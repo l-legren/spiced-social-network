@@ -34,8 +34,8 @@ module.exports.acceptRequest = (requester, receiver) => {
 
 module.exports.unfriend = (requester, receiver) => {
     const q = `DELETE FROM friendship
-    WHERE (requester_id = $1)
-    AND (receiver_id = $2)`;
+    WHERE (requester_id = $1 AND receiver_id = $2)
+    OR (receiver_id = $1 AND requester_id = $2)`;
     const params = [requester, receiver];
 
     return db.query(q, params);
