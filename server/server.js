@@ -363,6 +363,13 @@ app.post("/reject-request", (req, res) => {
     }
 });
 
+app.get('/get-friends/:id', (req, res) => {
+    console.log('working on the server: ', req.params);
+    const {id} = req.params;
+    dbf.getFriends(id)
+        .then(({rows}) => console.log(rows));
+});
+
 // NEVER COMMENT OUT THIS LINE OF CODE!!!
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));

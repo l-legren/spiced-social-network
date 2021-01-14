@@ -1,6 +1,7 @@
 import { Component } from "react";
 import instance from "./axios";
 import FriendButton from "./friendbutton";
+import { Link } from 'react-router-dom';
 
 export default class OtherProfile extends Component {
     constructor(props) {
@@ -73,6 +74,8 @@ export default class OtherProfile extends Component {
                         )}
                     </div>
                 )}
+                <h2>Who is in here?</h2>
+                <Link to="/users">Find User</Link>
             </>
         );
     }

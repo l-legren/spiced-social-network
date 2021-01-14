@@ -28,6 +28,7 @@ CREATE TABLE friendship (
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE UNIQUE INDEX ON friendships (least(sender_id, recipient_id), greatest(sender_id, recipient_id));
 
 INSERT INTO friendship (requester_id, receiver_id, friendship) VALUES (4, 9, true);
 INSERT INTO friendship (requester_id, receiver_id, friendship) VALUES (7, 8, true);

@@ -40,3 +40,18 @@ module.exports.unfriend = (requester, receiver) => {
 
     return db.query(q, params);
 };
+
+module.exports.getFriends = (id) => {
+    const q = `SELECT users.id, first, last, profile_pic
+    FROM users
+    JOIN friendship
+    ON (friendship = true 
+        AND 
+        (receiver_id = users.id AND requester_id = $1)
+        OR 
+        (receiver_id = $1 AND requester_id = users.id)
+        )`;
+    const params = [id];
+
+    return db.query(q, params);
+};

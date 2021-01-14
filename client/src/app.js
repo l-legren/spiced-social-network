@@ -1,12 +1,14 @@
 import { Component } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 import axios from "axios";
+
 import ProfilePic from "./profilepic";
 import Uploader from "./uploader";
 import Profile from "./profile";
 import OtherProfile from "./otherprofile";
 import LogOut from "./logout";
 import FindPeople from "./findpeople";
+import UserFriends from './userfriends';
 
 export default class App extends Component {
     constructor() {
@@ -120,10 +122,17 @@ export default class App extends Component {
                             )}
                         ></Route>
                         <Route
-                            
                             path="/users"
                             render={() => {
                                 return <FindPeople />;
+                            }}
+                        />
+                        <Route
+                            path="/friends/:id"
+                            render={(props) => {
+                                return <UserFriends
+                                    id={props.match.params.id} 
+                                />;
                             }}
                         />
                     </div>
