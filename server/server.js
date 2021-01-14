@@ -357,17 +357,20 @@ app.post("/reject-request", (req, res) => {
             .then(() => {
                 console.log("Removed from Database");
                 res.json({
-                    success: true
+                    success: true,
                 });
-            }).catch((err) => console.log("Error removing from Database: ", err));
+            })
+            .catch((err) => console.log("Error removing from Database: ", err));
     }
 });
 
-app.get('/get-friends/:id', (req, res) => {
-    console.log('working on the server: ', req.params);
-    const {id} = req.params;
-    dbf.getFriends(id)
-        .then(({rows}) => console.log(rows));
+app.get("/get-friends/:id", (req, res) => {
+    console.log("working on the server: ", req.params);
+    const { id } = req.params;
+    dbf.getFriends(id).then(({ rows }) => {
+        console.log(rows);
+        res.json(rows);
+    });
 });
 
 // NEVER COMMENT OUT THIS LINE OF CODE!!!

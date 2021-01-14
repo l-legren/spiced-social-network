@@ -1,16 +1,17 @@
 import instance from "./axios";
 // EXAMPLE OF AN ACTION
-export function getFriends(id) {
+export async function getFriends(id) {
+
+    try {
+        var { data } = await instance.get(`/get-friends/${id}`);
+        console.log(`Getting friends of ${id} from server: `, data);
+    } catch {
+        (err) => console.log("Error fetching friends: ", err);
+    }
+    
+
     return {
         type: "SHOW_FRIENDS",
-        friends: (async () => {
-            try {
-                console.log('getting friends from server....');
-                const { data } = instance.get(`/get-friends/${id}`);
-                console.log(data);
-            } catch {
-                (err) => console.log("Error fetching friends: ", err);
-            }
-        })(),
+        friendsList: data
     };
 }
