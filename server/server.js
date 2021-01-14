@@ -365,9 +365,16 @@ app.post("/reject-request", (req, res) => {
 });
 
 app.get("/get-friends/:id", (req, res) => {
-    console.log("working on the server: ", req.params);
     const { id } = req.params;
     dbf.getFriends(id).then(({ rows }) => {
+        res.json(rows);
+    });
+});
+
+app.get("/get-requesters/:id", (req, res) => {
+    console.log("working on the server: ", req.params);
+    const { id } = req.params;
+    dbf.getRequesters(id).then(({ rows }) => {
         console.log(rows);
         res.json(rows);
     });

@@ -6,10 +6,12 @@ import { getFriends, getRequesters, getOpenRequest } from "./actions";
 const UserFriends = ({ id }) => {
     const dispatch = useDispatch();
     const userFriends = useSelector((state) => state.friends);
+    const userRequesters = useSelector((state) => state.requests);
 
     useEffect(() => {
         (async () => {
             dispatch(getFriends(id));
+            dispatch(getRequesters(id));
         })();
     }, []);
 
@@ -18,15 +20,7 @@ const UserFriends = ({ id }) => {
             <div className="friends-page" id="friends">
                 <h2>Friends</h2>
                 <div className="divisory"></div>
-                <ul
-                    style={{
-                        listStyleType: "none",
-                        margin: 0,
-                        padding: 0,
-                        marginTop: 25,
-                        marginBottom: 25,
-                    }}
-                >
+                <ul style={{ paddingLeft: 0 }}>
                     {(userFriends || []).map((friend, idx) => {
                         return (
                             <>
@@ -36,7 +30,7 @@ const UserFriends = ({ id }) => {
                                         <img
                                             src={friend.profile_pic}
                                             alt={friend.first}
-                                            style={{width: 100, height: 100}}
+                                            style={{ width: 100, height: 100 }}
                                         ></img>
                                     </li>
                                 </a>
@@ -48,6 +42,24 @@ const UserFriends = ({ id }) => {
             <div className="friends-page" id="requesters">
                 <h2>Requesters</h2>
                 <div className="divisory"></div>
+                <ul style={{ paddingLeft: 0 }}>
+                    {(userRequesters || []).map((requester, idx) => {
+                        return (
+                            <>
+                                <a href={`/user/${requester.id}`}>
+                                    <li key={idx}>
+                                        <h3>{requester.first}</h3>
+                                        <img
+                                            src={requester.profile_pic}
+                                            alt={requester.first}
+                                            style={{ width: 100, height: 100 }}
+                                        ></img>
+                                    </li>
+                                </a>
+                            </>
+                        );
+                    })}
+                </ul>
             </div>
             <div className="friends-page" id="my-requests">
                 <h2>Open Requests</h2>

@@ -17,7 +17,7 @@ export async function getFriends(id) {
 export async function getRequesters(id) {
     try {
         var { data } = await instance.get(`/get-requesters/${id}`);
-        console.log(`Getting friends of ${id} from server: `, data);
+        console.log(`Getting requesters of ${id} from server: `, data);
     } catch {
         (err) => console.log("Error fetching requesters: ", err);
     }
