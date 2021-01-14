@@ -55,3 +55,15 @@ module.exports.getFriends = (id) => {
 
     return db.query(q, params);
 };
+
+module.exports.getRequesters = (id) => {
+    const q = `SELECT users.id, first, last, profile_pic
+    FROM users
+    JOIN friendship
+    ON (friendship = false 
+        AND 
+        (receiver_id = users.id AND requester_id = $1)`;
+    const params = [id];
+
+    return db.query(q, params);
+};
