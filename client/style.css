@@ -314,3 +314,9 @@ li a h2 {
     margin-left: 20px;
     cursor: pointer;
 }
+
+/* FRIENDS AND REQUESTS PAGE */
+
+.friends-page {
+    display:flex;
+}

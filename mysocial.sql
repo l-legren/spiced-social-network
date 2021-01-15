@@ -1,6 +1,6 @@
+DROP TABLE IF EXISTS friendship;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS reset_codes;
-DROP TABLE IF EXISTS friendship;
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
@@ -28,7 +28,7 @@ CREATE TABLE friendship (
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE UNIQUE INDEX ON friendships (least(sender_id, recipient_id), greatest(sender_id, recipient_id));
+CREATE UNIQUE INDEX ON friendship (least(requester_id, receiver_id), greatest(requester_id, receiver_id));
 
 INSERT INTO friendship (requester_id, receiver_id, friendship) VALUES (4, 9, true);
 INSERT INTO friendship (requester_id, receiver_id, friendship) VALUES (7, 8, true);

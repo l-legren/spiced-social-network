@@ -47,22 +47,27 @@ module.exports.getFriends = (id) => {
     JOIN friendship
     ON (friendship = true 
         AND 
-        (receiver_id = users.id AND requester_id = $1)
+        ((receiver_id = users.id AND requester_id = $1)
         OR 
         (receiver_id = $1 AND requester_id = users.id)
-        )`;
+        ))`;
     const params = [id];
 
     return db.query(q, params);
 };
 
 module.exports.getRequesters = (id) => {
-    const q = `SELECT users.id, first, last, profile_pic
+    const q = `SELECT users.id, requester_id, receiver_id, first, last, profile_pic
     FROM users
     JOIN friendship
     ON (friendship = false) 
-        AND 
-        (requester_id = users.id AND receiver_id = $1)`;
+        AND (
+            (requester_id = users.id AND receiver_id = $1)
+            OR
+            (requester_id = $1 AND receiver_id = users.id)
+            ) 
+            `;
+
     const params = [id];
 
     return db.query(q, params);
