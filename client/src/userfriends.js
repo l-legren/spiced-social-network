@@ -19,7 +19,6 @@ const UserFriends = ({ id }) => {
 
     const handleClick = (e) => {
         e.preventDefault();
-        // console.log(e.target.parentNode.parentNode.href);
         let splittedURL = e.target.parentNode.parentNode.href.split('/');
         let userInUrl = splittedURL[splittedURL.length-1];
         return e.target.innerText == 'Accept' ? dispatch(acceptFriend(userInUrl))
@@ -41,7 +40,7 @@ const UserFriends = ({ id }) => {
                             <>
                                 <a href={`/user/${user.id}`}>
                                     <li key={idx}>
-                                        <h3>{user.first}</h3>
+                                        <h4>{user.first}</h4>
                                         <img
                                             src={user.profile_pic}
                                             alt={user.first}

@@ -29,7 +29,6 @@ export async function getRequesters(id) {
 }
 
 export async function acceptFriend(otherUserId) {
-    console.log("ID IN ACTION!!!: ", otherUserId);
     try {
         await instance.post("/change-status", {
             status: TEXT_BUTTON.ACCEPT_FRIENDSHIP,

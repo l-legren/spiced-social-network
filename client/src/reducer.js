@@ -20,11 +20,21 @@ export default function reducer(state = {}, action) {
             requestsToUser: (state.requestsToUser.filter(
                 (user) => user.id != action.acceptedId
             )),
-            friends: (state.friends.push(
-                state.requestsToUser.filter(
-                    (user) => user.id == action.acceptedId
-                )
-            )),
+            friends: [...state.friends, state.requestsToUser.find(
+                (user) => user.id == action.acceptedId
+            )],
+        };
+    }
+
+    if (action.type == 'REMOVE_FRIENDSHIP') {
+        state = {
+            ...state,
+            friends: state.friends.filter(
+                user => user.id != action.unfriendId
+            ),
+            requestsFromUser: state.requestsFromUser.filter(
+                user => user.id != action.unfriendId
+            )
         };
     }
 
