@@ -10,10 +10,28 @@ export default function reducer(state = {}, action) {
         state = {
             ...state,
             requestsToUser: action.requestersList,
-            requestsFromUser: action.openRequests
+            requestsFromUser: action.openRequests,
         };
     }
 
-    console.log('Redux state', state);
+    if (action.type == "ACCEPT_FRIENDSHIP") {
+        const acceptedUser = state.requestsToUser.filter(
+            (user) => user.id == state.acceptedId
+        );
+        const restOfUsers = state.requestsToUser.filter(
+            (user) => user.id != state.acceptedId
+        );
+
+        console.log('acc user: ', acceptedUser, restOfUsers);
+
+        state = {
+            ...state,
+            acceptedId: action.acceptedId,
+            requestsToUser: restOfUsers,
+            friends: state.friends.push(acceptedUser),
+        };
+    }
+
+    console.log("Redux state", state);
     return state;
 }

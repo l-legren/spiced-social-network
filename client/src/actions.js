@@ -28,18 +28,22 @@ export async function getRequesters(id) {
     };
 }
 
-// acceptFriend - makes a POST request to the server to accept the friendship. The function should return an object with a type property and the id of the user whose friendship was accepted.
+export async function acceptFriend(otherUserId) {
 
-// unfriend - makes a POST request to the server to end the friendship. It should return an object with a type property and the id of the user whose friendship was ended.
-
-export async function acceptFriend() {
+    console.log('ID IN ACTION!!!: ',otherUserId);
     try {
-        var { data } = await instance.post("/change-status", {
+        await instance.post("/change-status", {
             status: TEXT_BUTTON.ACCEPT_FRIENDSHIP,
+            otherUserId: otherUserId
         });
+        console.log('Friendship removed from DB');
     } catch {
         (err) => console.log("Error accepting friend request", err);
     }
+    return {
+        type: 'ACCEPT_FRIENDSHIP',
+        acceptedId: otherUserId
+    };
 }
 
 const TEXT_BUTTON = {
