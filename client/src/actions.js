@@ -62,12 +62,6 @@ export async function removeFriend(otherUserId) {
     };
 }
 
-export async function cancelRequest(otherUserId) {
-    try {
-        
-    }
-}
-
 const TEXT_BUTTON = {
     NO_FRIENDS: "No friends",
     FRIENDS: "Friends",

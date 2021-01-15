@@ -1,6 +1,7 @@
 import { Component } from "react";
 import instance from "./axios";
 import { Router, Link } from "react-router-dom";
+import { Container, Row, Col, Button } from "react-bootstrap";
 
 export default class Login extends Component {
     constructor(props) {
@@ -41,30 +42,38 @@ export default class Login extends Component {
 
     render() {
         return (
-            <div>
-                <h1>LOG IN!</h1>
-                <input
-                    name="email"
-                    type="email"
-                    onChange={(e) => this.handleChange(e)}
-                    placeholder="E-Mail"
-                    required
-                ></input>
-                <input
-                    name="password"
-                    type="password"
-                    onChange={(e) => this.handleChange(e)}
-                    placeholder="Password"
-                    required
-                ></input>
-                <button onClick={() => this.handleClick()} type="submit">Log In!</button>
-                { this.state.error && <p style={{color: "red"}}>Something broke! Please fill in missing fields above!</p> }
-                <br></br>
-                <br></br>
-                <p>Forgot your Password?</p>
-                <Link to="/">Click here to sign up</Link><br></br>
-                <Link to="/reset-password">Click here to reset your password!</Link>
-            </div>
+            <Container>
+                <Row>
+                    <Col lg={4} md={4}></Col>
+                    <Col lg={4} md={4}>
+                        <div>
+                            <h1>LOG IN!</h1>
+                            <input
+                                name="email"
+                                type="email"
+                                onChange={(e) => this.handleChange(e)}
+                                placeholder="E-Mail"
+                                required
+                            ></input>
+                            <input
+                                name="password"
+                                type="password"
+                                onChange={(e) => this.handleChange(e)}
+                                placeholder="Password"
+                                required
+                            ></input>
+                            <button onClick={() => this.handleClick()} type="submit">Log In!</button>
+                            { this.state.error && <p style={{color: "red"}}>Something broke! Please fill in missing fields above!</p> }
+                            <br></br>
+                            <br></br>
+                            <p>Forgot your Password?</p>
+                            <Link to="/">Click here to sign up</Link><br></br>
+                            <Link to="/reset-password">Click here to reset your password!</Link>
+                        </div>
+                    </Col>
+                    <Col lg={4} md={4}></Col>
+                </Row>
+            </Container>
         );
     }
 }

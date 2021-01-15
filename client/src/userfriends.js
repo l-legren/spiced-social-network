@@ -19,7 +19,7 @@ const UserFriends = ({ id }) => {
 
     const handleClick = (e) => {
         e.preventDefault();
-        console.log(e.target.parentNode.parentNode.href);
+        // console.log(e.target.parentNode.parentNode.href);
         let splittedURL = e.target.parentNode.parentNode.href.split('/');
         let userInUrl = splittedURL[splittedURL.length-1];
         return e.target.innerText == 'Accept' ? dispatch(acceptFriend(userInUrl))

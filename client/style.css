@@ -320,3 +320,8 @@ li a h2 {
 .friends-page {
     display:flex;
 }
+
+.friends-page a {
+    display: flex;
+    flex-direction: column;
+}

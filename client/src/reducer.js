@@ -17,13 +17,12 @@ export default function reducer(state = {}, action) {
     if (action.type == "ACCEPT_FRIENDSHIP") {
         state = {
             ...state,
-            acceptedId: action.acceptedId,
             requestsToUser: (state.requestsToUser.filter(
-                (user) => user.id != state.acceptedId
+                (user) => user.id != action.acceptedId
             )),
             friends: (state.friends.push(
                 state.requestsToUser.filter(
-                    (user) => user.id == state.acceptedId
+                    (user) => user.id == action.acceptedId
                 )
             )),
         };
