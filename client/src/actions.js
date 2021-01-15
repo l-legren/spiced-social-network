@@ -29,21 +29,43 @@ export async function getRequesters(id) {
 }
 
 export async function acceptFriend(otherUserId) {
-
-    console.log('ID IN ACTION!!!: ',otherUserId);
+    console.log("ID IN ACTION!!!: ", otherUserId);
     try {
         await instance.post("/change-status", {
             status: TEXT_BUTTON.ACCEPT_FRIENDSHIP,
-            otherUserId: otherUserId
+            otherUserId: otherUserId,
         });
-        console.log('Friendship removed from DB');
+        console.log("Friendship set to true in DB");
     } catch {
         (err) => console.log("Error accepting friend request", err);
     }
     return {
-        type: 'ACCEPT_FRIENDSHIP',
-        acceptedId: otherUserId
+        type: "ACCEPT_FRIENDSHIP",
+        acceptedId: otherUserId,
     };
+}
+
+export async function removeFriend(otherUserId) {
+    try {
+        await instance.post("/change-status", {
+            status: TEXT_BUTTON.FRIENDS,
+            otherUserId: otherUserId,
+        });
+        console.log("Friendship removed from DB");
+    } catch {
+        console.log("Error removing friendship from DB");
+    }
+
+    return {
+        type: 'REMOVE_FRIENDSHIP',
+        unfriendId: otherUserId
+    };
+}
+
+export async function cancelRequest(otherUserId) {
+    try {
+        
+    }
 }
 
 const TEXT_BUTTON = {
@@ -51,5 +73,5 @@ const TEXT_BUTTON = {
     FRIENDS: "Friends",
     PENDING_REQUEST: "Pending request",
     ACCEPT_FRIENDSHIP: "Accept request",
-    REJECT_FRIENDSHIP: "Ignore request"
+    REJECT_FRIENDSHIP: "Ignore request",
 };

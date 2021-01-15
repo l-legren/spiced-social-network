@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { acceptFriend, getFriends, getRequesters } from "./actions";
+import { acceptFriend, getFriends, getRequesters, removeFriend } from "./actions";
 import { Button } from "react-bootstrap";
 // import reducer from './reducer';
 
@@ -23,7 +23,7 @@ const UserFriends = ({ id }) => {
         let splittedURL = e.target.parentNode.parentNode.href.split('/');
         let userInUrl = splittedURL[splittedURL.length-1];
         return e.target.innerText == 'Accept' ? dispatch(acceptFriend(userInUrl))
-            : console.log("Other buttons");
+            : dispatch(removeFriend(userInUrl));
     };
 
     const stateOfFriendship = (stateOfFriendship) => {

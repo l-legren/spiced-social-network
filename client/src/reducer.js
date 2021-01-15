@@ -15,20 +15,17 @@ export default function reducer(state = {}, action) {
     }
 
     if (action.type == "ACCEPT_FRIENDSHIP") {
-        const acceptedUser = state.requestsToUser.filter(
-            (user) => user.id == state.acceptedId
-        );
-        const restOfUsers = state.requestsToUser.filter(
-            (user) => user.id != state.acceptedId
-        );
-
-        console.log('acc user: ', acceptedUser, restOfUsers);
-
         state = {
             ...state,
             acceptedId: action.acceptedId,
-            requestsToUser: restOfUsers,
-            friends: state.friends.push(acceptedUser),
+            requestsToUser: (state.requestsToUser.filter(
+                (user) => user.id != state.acceptedId
+            )),
+            friends: (state.friends.push(
+                state.requestsToUser.filter(
+                    (user) => user.id == state.acceptedId
+                )
+            )),
         };
     }
 
