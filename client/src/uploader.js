@@ -1,5 +1,7 @@
 import { Component } from "react";
 import instance from "./axios";
+import { connect } from 'react-redux';
+import {updatePhoto} from './actions.js';
 // import LogOut from "./logout";
 // import PublishIcon from '@material-ui/icons/Publish';
 
@@ -8,6 +10,7 @@ export default class Uploader extends Component {
         super(props);
         this.state = {};
     }
+
 
     handleChange(e) {
         const file = e.target.files[0];
@@ -69,3 +72,12 @@ export default class Uploader extends Component {
         );
     } 
 }
+
+// const mapStateToProps = null;
+// function mapDispatchToProps(dispatch) {
+//     return {
+//         dispatchUpdatePhoto: (pic) => dispatch(updatePhoto(pic)) 
+//     };
+// }
+
+// connect(mapStateToProps, mapDispatchToProps)(Uploader);

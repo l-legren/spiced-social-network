@@ -22,9 +22,9 @@ export default class Logout extends Component {
 
     render() { 
         return (
-            <div style={{display: "inline-flex"}} id="logout" onClick={() => this.handleLogOut()}>
-                <h3>Log Out</h3>
-                <ExitToAppIcon />
+            <div style={{display: "flex"}} id="logout" onClick={() => this.handleLogOut()}>
+                <h3 style={{marginBottom: 0, fontSize: 20}}>Log Out</h3>
+                <ExitToAppIcon style={{position: 'relative'}}/>
             </div>
         );
     }

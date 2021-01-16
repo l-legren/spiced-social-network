@@ -1,5 +1,33 @@
 import instance from "./axios";
 
+// GET USER INFO
+
+export async function getUserInfo() {
+    try {
+        var { data } = await instance.get("/user");
+        console.log("DATA USER", data);
+    } catch {
+        (err) => console.log("Error fetching data", err);
+    }
+
+    return {
+        type: "GET_USER_INFO",
+        userInfo: data,
+    };
+}
+
+// UPDATE PROFILE PHOTO
+
+// export async function updatePhoto(pic) {
+
+//     return {
+//         type: "UPDATE_PHOTO",
+//         newPic: pic,
+//     };
+// }
+
+// FRIENDS, REQUESTERS AND OPEN REQUESTS
+
 export async function getFriends(id) {
     try {
         var { data } = await instance.get(`/get-friends/${id}`);
@@ -56,8 +84,8 @@ export async function removeFriend(otherUserId) {
     }
 
     return {
-        type: 'REMOVE_FRIENDSHIP',
-        unfriendId: otherUserId
+        type: "REMOVE_FRIENDSHIP",
+        unfriendId: otherUserId,
     };
 }
 

@@ -17,24 +17,48 @@ export default function reducer(state = {}, action) {
     if (action.type == "ACCEPT_FRIENDSHIP") {
         state = {
             ...state,
-            requestsToUser: (state.requestsToUser.filter(
+            requestsToUser: state.requestsToUser.filter(
                 (user) => user.id != action.acceptedId
-            )),
-            friends: [...state.friends, state.requestsToUser.find(
-                (user) => user.id == action.acceptedId
-            )],
+            ),
+            friends: [
+                ...state.friends,
+                state.requestsToUser.find(
+                    (user) => user.id == action.acceptedId
+                ),
+            ],
         };
     }
 
-    if (action.type == 'REMOVE_FRIENDSHIP') {
+    if (action.type == "REMOVE_FRIENDSHIP") {
         state = {
             ...state,
             friends: state.friends.filter(
-                user => user.id != action.unfriendId
+                (user) => user.id != action.unfriendId
             ),
             requestsFromUser: state.requestsFromUser.filter(
-                user => user.id != action.unfriendId
-            )
+                (user) => user.id != action.unfriendId
+            ),
+        };
+    }
+
+    if (action.type == "GET_USER_INFO") {
+        state = {
+            ...state,
+            userInfo: Object.keys(action.userInfo)
+                .filter((key) =>
+                    ["id", "first", "last", "profile_pic"].includes(key)
+                )
+                .reduce((obj, key) => {
+                    obj[key] = action.userInfo[key];
+                    return obj;
+                }, {}),
+        };
+    }
+
+    if (action.type == "UPDATE_PHOTO") {
+        state = {
+            ...state,
+            actualPic: action.newPic,
         };
     }
 

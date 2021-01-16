@@ -8,7 +8,8 @@ import Profile from "./profile";
 import OtherProfile from "./otherprofile";
 import LogOut from "./logout";
 import FindPeople from "./findpeople";
-import UserFriends from './userfriends';
+import UserFriends from "./userfriends";
+import Header from "./header";
 
 export default class App extends Component {
     constructor() {
@@ -67,33 +68,21 @@ export default class App extends Component {
         return (
             <BrowserRouter>
                 <div>
-                    <div className="nav-top">
-                        <div>
-                            <h1>...mySocial</h1>
-                        </div>
-                        <div className="pic-profile-wrapper">
-                            <LogOut style={{ position: "relative" }} />
-                            <div id="name-container">
-                                <h2>{this.state.first}</h2>
-                            </div>
-                            <ProfilePic
-                                toggleUploader={() => this.toggleUploader()}
-                                profilePic={this.state.profilePic}
-                                first={this.state.first}
-                                last={this.state.last}
-                            />
-                            {this.state.uploaderIsVisible && (
-                                <Uploader
-                                    setImage={(urlProfilePic) =>
-                                        this.setImage(urlProfilePic)
-                                    }
-                                    closeModal={() => this.closeModal()}
-                                />
-                            )}
-                        </div>
-                    </div>
+                    <Header
+                        toggleUploader={() => this.toggleUploader()}
+                        profilePic={this.state.profilePic}
+                    />
+                    {this.state.uploaderIsVisible && (
+                        <Uploader
+                            setImage={(urlProfilePic) =>
+                                this.setImage(urlProfilePic)
+                            }
+                            closeModal={() => this.closeModal()}
+                        />
+                    )}
                     <div className="divisory"></div>
                     <div className="profiles">
+                        <Route path="/header" render={() => <Header />} />
                         <Route
                             path="/user/:id"
                             render={(props) => (
@@ -130,9 +119,9 @@ export default class App extends Component {
                         <Route
                             path="/friends/:id"
                             render={(props) => {
-                                return <UserFriends
-                                    id={props.match.params.id} 
-                                />;
+                                return (
+                                    <UserFriends id={props.match.params.id} />
+                                );
                             }}
                         />
                     </div>
