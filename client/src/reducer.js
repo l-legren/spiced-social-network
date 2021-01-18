@@ -55,10 +55,10 @@ export default function reducer(state = {}, action) {
         };
     }
 
-    if (action.type == "UPDATE_PHOTO") {
+    if (action.type == "ADD_RECENT_MESSAGES") {
         state = {
             ...state,
-            actualPic: action.newPic,
+            recentMessages: action.recentMessages,
         };
     }
 

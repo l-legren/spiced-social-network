@@ -28,7 +28,16 @@ CREATE TABLE friendship (
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE chat_messages (
+  id SERIAL PRIMARY KEY,
+  message VARCHAR NOT NULL,
+  user_id INT NOT NULL REFERENCES users(id),
+  timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE UNIQUE INDEX ON friendship (least(requester_id, receiver_id), greatest(requester_id, receiver_id));
 
-INSERT INTO friendship (requester_id, receiver_id, friendship) VALUES (4, 9, true);
-INSERT INTO friendship (requester_id, receiver_id, friendship) VALUES (7, 8, true);
+-- INSERT INTO friendship (requester_id, receiver_id, friendship) VALUES (4, 9, true);
+-- INSERT INTO friendship (requester_id, receiver_id, friendship) VALUES (7, 8, true);
+
+-- INSERT INTO chat_messages (id, message, user_id) VALUES

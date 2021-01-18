@@ -8,6 +8,7 @@ process.env.NODE_ENV === "production"
 const cookieSession = require("cookie-session");
 const db = require("./db.js");
 const dbf = require("./friendship-db");
+const dbc = require("./chat-db");
 // csurf create tokens in the requests objects!!
 const csurf = require("csurf");
 const { hash, compare } = require("./bc.js");
@@ -19,6 +20,12 @@ const { upload } = require("./s3.js");
 const { s3Url } = require("./config.json");
 
 // MIDDLEWARE
+
+const server = require("http").Server(app);
+const io = require("socket.io")(server, {
+    allowRequest: (req, callback) =>
+        callback(null, req.headers.referer.startsWith("http://localhost:3000")),
+});
 
 const diskStorage = multer.diskStorage({
     destination: function (req, file, callback) {
@@ -40,12 +47,16 @@ const uploader = multer({
 
 app.use(express.json());
 
-app.use(
-    cookieSession({
-        secret: "I am an hungry man",
-        maxAge: 1000 * 60 * 60 * 24 * 14,
-    })
-);
+const cookieSessionMiddleware = cookieSession({
+    secret: "I am an hungry man",
+    maxAge: 1000 * 60 * 60 * 24 * 14,
+});
+
+app.use(cookieSessionMiddleware);
+
+io.use(function (socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
 
 app.use(express.urlencoded({ extended: false }));
 
@@ -381,12 +392,20 @@ app.get("/get-requesters/:id", (req, res) => {
     });
 });
 
+io.on("connection", (socket) => {
+    console.log("socket request id ", socket.request.session.userId);
+    dbc.getTenMostRecentMessages().then(({ rows }) => {
+        console.log("Result of query:", rows);
+        socket.emit("most recent messages", rows);
+    });
+});
+
 // NEVER COMMENT OUT THIS LINE OF CODE!!!
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
 
-app.listen(process.env.PORT || 3001, function () {
+server.listen(process.env.PORT || 3001, function () {
     console.log("I'm listening.");
 });
 
@@ -395,5 +414,5 @@ const TEXT_BUTTON = {
     FRIENDS: "Friends",
     PENDING_REQUEST: "Pending request",
     ACCEPT_FRIENDSHIP: "Accept request",
-    REJECT_FRIENDSHIP: "Ignore request"
+    REJECT_FRIENDSHIP: "Ignore request",
 };

@@ -10,6 +10,7 @@ import LogOut from "./logout";
 import FindPeople from "./findpeople";
 import UserFriends from "./userfriends";
 import Header from "./header";
+import Chat from "./chat";
 
 export default class App extends Component {
     constructor() {
@@ -82,7 +83,6 @@ export default class App extends Component {
                     )}
                     <div className="divisory"></div>
                     <div className="profiles">
-                        <Route path="/header" render={() => <Header />} />
                         <Route
                             path="/user/:id"
                             render={(props) => (
@@ -124,6 +124,7 @@ export default class App extends Component {
                                 );
                             }}
                         />
+                        <Route path="/chatroom" render={() => <Chat />} />
                     </div>
                 </div>
             </BrowserRouter>

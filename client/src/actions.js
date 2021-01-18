@@ -16,15 +16,20 @@ export async function getUserInfo() {
     };
 }
 
-// UPDATE PROFILE PHOTO
+// DISPATCH MESSAGES FROM CHAT
 
-// export async function updatePhoto(pic) {
+export async function storeChatMessages(mostRecentMessages) {
+    try {
+        console.log('Most recent messages action: ', mostRecentMessages);
+    } catch {
+        (err) => console.log("Error storing messages in State: ", err);
+    }
 
-//     return {
-//         type: "UPDATE_PHOTO",
-//         newPic: pic,
-//     };
-// }
+    return {
+        type: "ADD_RECENT_MESSAGES",
+        recentMessages: mostRecentMessages,
+    };
+}
 
 // FRIENDS, REQUESTERS AND OPEN REQUESTS
 
