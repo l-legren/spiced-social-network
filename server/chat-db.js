@@ -12,7 +12,7 @@ module.exports.newMessage = (id, message) => {
 };
 
 module.exports.getTenMostRecentMessages = () => {
-    const q = `SELECT first, last, profile_pic, timestamp, message 
+    const q = `SELECT first, last, profile_pic, timestamp::date, message 
     FROM users
     LEFT OUTER JOIN chat_messages 
     ON (users.id = chat_messages.user_id)
