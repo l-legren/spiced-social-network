@@ -20,7 +20,7 @@ export async function getUserInfo() {
 
 export async function storeChatMessages(mostRecentMessages) {
     try {
-        console.log('Most recent messages action: ', mostRecentMessages);
+        // console.log("Most recent messages action: ", mostRecentMessages);
     } catch {
         (err) => console.log("Error storing messages in State: ", err);
     }
@@ -28,6 +28,19 @@ export async function storeChatMessages(mostRecentMessages) {
     return {
         type: "ADD_RECENT_MESSAGES",
         recentMessages: mostRecentMessages,
+    };
+}
+
+export async function addNewMessage(newMessage) {
+    try {
+        console.log("This is the very last message", newMessage);
+    } catch {
+        (err) => console.log("Error updating last message");
+    }
+
+    return {
+        type: "ADD_NEW_MESSAGE",
+        newMessage: newMessage,
     };
 }
 

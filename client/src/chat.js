@@ -7,7 +7,8 @@ const Chat = () => {
     );
 
     const handleKeyDown = (e) => {
-        if (e.key == "enter") {
+        if (e.key == "Enter") {
+            e.preventDefault();
             console.log("user pressed enter!");
             socket.emit("new chat message", e.target.value);
         }
@@ -20,7 +21,7 @@ const Chat = () => {
                 {recentMessages.map((msg, idx) => {
                     return (
                         <div key={idx} className="message-container">
-                            <div id='chat-image-wrapper'>
+                            <div id="chat-image-wrapper">
                                 <img
                                     src={msg.profile_pic}
                                     alt={`${msg.first} ${msg.last}`}
@@ -37,7 +38,10 @@ const Chat = () => {
                         </div>
                     );
                 })}
-                <textarea onKeyDown={handleKeyDown} placeholder='Leave your message here...'></textarea>
+                <textarea
+                    onKeyDown={handleKeyDown}
+                    placeholder="Leave your message here..."
+                ></textarea>
             </div>
         </>
     );

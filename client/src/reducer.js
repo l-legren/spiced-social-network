@@ -62,6 +62,13 @@ export default function reducer(state = {}, action) {
         };
     }
 
+    if (action.type == "ADD_NEW_MESSAGE") {
+        state = {
+            ...state,
+            recentMessages: [...state.recentMessages, action.newMessage],
+        };
+    }
+
     console.log("Redux state", state);
     return state;
 }

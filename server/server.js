@@ -393,10 +393,21 @@ app.get("/get-requesters/:id", (req, res) => {
 });
 
 io.on("connection", (socket) => {
-    console.log("socket request id ", socket.request.session.userId);
+    // console.log("socket request id ", socket.request.session.userId);
+    const userId = socket.request.session.userId;
     dbc.getTenMostRecentMessages().then(({ rows }) => {
-        console.log("Result of query:", rows);
+        // console.log("Result of query:", rows);
         socket.emit("most recent messages", rows);
+    });
+
+    socket.on("new chat message", (message) => {
+        dbc.newMessage(userId, message).then(({ rows }) => {
+            console.log('que cojones', rows);
+            dbc.getUserWithMessage(rows[0].message).then(({ rows }) => {
+                console.log("These are fields after double query", rows[0]);
+                io.sockets.emit("new message and user", rows[0]);
+            });
+        });
     });
 });
 
