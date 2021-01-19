@@ -34,7 +34,7 @@ export const init = (store) => {
     });
 
     socket.on("user disconnected", (afterUserLeaving) => {
-        console.log("This user is leaving: ", afterUserLeaving);
+        console.log("After user is leaving: ", afterUserLeaving);
         store.dispatch(connectedUsersAfterUserLeaving(afterUserLeaving));
     });
 };

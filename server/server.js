@@ -408,10 +408,12 @@ io.on("connection", (socket) => {
         console.log("This is user connecting", rows[0]);
         socket.broadcast.emit("adding connected user", rows[0]);
     });
-    const arrOfIds = [...new Set(Object.values(onlineUsers))];
-    dbc.getConnectedUsers(arrOfIds).then(({ rows }) => {
-        socket.emit("connected users", rows);
-    });
+    let arrOfIds = [...new Set(Object.values(onlineUsers))];
+    dbc.getConnectedUsers(arrOfIds)
+        .then(({ rows }) => {
+            socket.emit("connected users", rows);
+        })
+        .catch((err) => console.log("Error getting connected users", err));
     // Display most recent messages
     dbc.getTenMostRecentMessages().then(({ rows }) => {
         socket.emit("most recent messages", rows);
@@ -431,11 +433,17 @@ io.on("connection", (socket) => {
     });
     // DISCONNECT FROM usersConnected
     socket.on("disconnect", () => {
-        
+        console.log("Array before deleting", arrOfIds);
         while (onlineUsers[socket.id]) {
             delete onlineUsers[socket.id];
         }
-        socket.broadcast.emit("user disconnected", arrOfIds);
+        arrOfIds = [...new Set(Object.values(onlineUsers))];
+        console.log("Array after deleting", arrOfIds);
+        dbc.getConnectedUsers(arrOfIds)
+            .then(({ rows }) => {
+                socket.broadcast.emit("user disconnected", rows);
+            })
+            .catch((err) => console.log("Error deleting user", err));
     });
 });
 
