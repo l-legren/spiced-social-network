@@ -5,7 +5,7 @@ import instance from "./axios";
 export async function getUserInfo() {
     try {
         var { data } = await instance.get("/user");
-        console.log("DATA USER", data);
+        // console.log("DATA USER", data);
     } catch {
         (err) => console.log("Error fetching data", err);
     }
@@ -41,6 +41,45 @@ export async function addNewMessage(newMessage) {
     return {
         type: "ADD_NEW_MESSAGE",
         newMessage: newMessage,
+    };
+}
+
+export function currentConnectedUsers(connectedUsers) {
+    try {
+        console.log("Dispatching connected Users to State", connectedUsers);
+    } catch {
+        (err) => console.log("error dispatching new user", err);
+    }
+
+    return {
+        type: "CONNECTED_USERS",
+        connectedUsers: connectedUsers,
+    };
+}
+
+export function addConnectedUser(connectedUser) {
+    try {
+        console.log("Adding to conneceted user");
+    } catch {
+        (err) => console.log("Error adding connected user", err);
+    }
+
+    return {
+        type: "ADD_CONNECTED_USER",
+        connectedUser: connectedUser,
+    };
+}
+
+export function connectedUsersAfterUserLeaving(afterUserLeaving) {
+    try {
+        console.log("Connected users after user is leaving");
+    } catch {
+        console.log("Error when disconnecting");
+    }
+
+    return {
+        type: "USER_LEAVING",
+        afterUserLeaving: afterUserLeaving,
     };
 }
 

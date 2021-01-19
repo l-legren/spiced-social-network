@@ -5,18 +5,31 @@ const Chat = () => {
     const recentMessages = useSelector(
         (state) => (state && state.recentMessages) || []
     );
+    const onlineUsers = useSelector(
+        (state) => (state && state.usersConnected) || []
+    );
 
     const handleKeyDown = (e) => {
         if (e.key == "Enter") {
             e.preventDefault();
             console.log("user pressed enter!");
             socket.emit("new chat message", e.target.value);
+            e.target.value = null;
         }
     };
 
     return (
         <>
             <h2>Welcome to the Chat Room</h2>
+            <div className="users-online">
+                {onlineUsers.map((user, idx) => {
+                    return (
+                        <div key={idx}>
+                            <h3>{user.first}</h3>
+                        </div>
+                    );
+                })}
+            </div>
             <div className="chat-container">
                 {recentMessages.map((msg, idx) => {
                     return (

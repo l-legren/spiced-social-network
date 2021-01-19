@@ -18,6 +18,7 @@ const multer = require("multer");
 const uidSafe = require("uid-safe");
 const { upload } = require("./s3.js");
 const { s3Url } = require("./config.json");
+const { CLIENT_RENEG_LIMIT } = require("tls");
 
 // MIDDLEWARE
 
@@ -392,22 +393,49 @@ app.get("/get-requesters/:id", (req, res) => {
     });
 });
 
+let onlineUsers = {};
+
 io.on("connection", (socket) => {
-    // console.log("socket request id ", socket.request.session.userId);
     const userId = socket.request.session.userId;
+
+    if (!userId) {
+        return socket.disconnect(true);
+    }
+
+    onlineUsers[socket.id] = userId;
+
+    dbc.getUserInfo(userId).then(({ rows }) => {
+        console.log("This is user connecting", rows[0]);
+        socket.broadcast.emit("adding connected user", rows[0]);
+    });
+    const arrOfIds = [...new Set(Object.values(onlineUsers))];
+    dbc.getConnectedUsers(arrOfIds).then(({ rows }) => {
+        socket.emit("connected users", rows);
+    });
+    // Display most recent messages
     dbc.getTenMostRecentMessages().then(({ rows }) => {
-        // console.log("Result of query:", rows);
         socket.emit("most recent messages", rows);
     });
-
+    // Add a new message to the chatroom
     socket.on("new chat message", (message) => {
-        dbc.newMessage(userId, message).then(({ rows }) => {
-            console.log('que cojones', rows);
-            dbc.getUserWithMessage(rows[0].message).then(({ rows }) => {
-                console.log("These are fields after double query", rows[0]);
-                io.sockets.emit("new message and user", rows[0]);
-            });
-        });
+        dbc.newMessage(userId, message)
+            .then(({ rows }) => {
+                dbc.getUserWithMessage(rows[0].message).then(({ rows }) => {
+                    console.log("These are fields after double query", rows[0]);
+                    io.sockets.emit("new message and user", rows[0]);
+                });
+            })
+            .catch((err) =>
+                console.log("Error while getting message user info", err)
+            );
+    });
+    // DISCONNECT FROM usersConnected
+    socket.on("disconnect", () => {
+        
+        while (onlineUsers[socket.id]) {
+            delete onlineUsers[socket.id];
+        }
+        socket.broadcast.emit("user disconnected", arrOfIds);
     });
 });
 

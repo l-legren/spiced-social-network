@@ -69,6 +69,27 @@ export default function reducer(state = {}, action) {
         };
     }
 
+    if (action.type == "CONNECTED_USERS") {
+        state = {
+            ...state,
+            usersConnected: action.connectedUsers,
+        };
+    }
+
+    if (action.type == "ADD_CONNECTED_USER") {
+        state = {
+            ...state,
+            usersConnected: [...state.usersConnected, action.connectedUser],
+        };
+    }
+
+    if (action.type == "USER_LEAVING") {
+        state = {
+            ...state,
+            usersConnected: action.afterUserLeaving,
+        };
+    }
+
     console.log("Redux state", state);
     return state;
 }

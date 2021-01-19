@@ -14,12 +14,12 @@ module.exports.newMessage = (user_id, message) => {
 };
 
 module.exports.getTenMostRecentMessages = () => {
-    const q = `SELECT first, last, profile_pic, timestamp::date, message 
+    const q = `SELECT first, last, profile_pic, timestamp, message 
     FROM users
     LEFT OUTER JOIN chat_messages 
     ON (users.id = chat_messages.user_id)
     WHERE message IS NOT NULL 
-    ORDER BY timestamp DESC
+    ORDER BY timestamp ASC
     LIMIT 10`;
     const params = [];
 
@@ -27,7 +27,7 @@ module.exports.getTenMostRecentMessages = () => {
 };
 
 module.exports.getUserWithMessage = (message) => {
-    const q = `SELECT first, last, profile_pic, message, timestamp::date 
+    const q = `SELECT first, last, profile_pic, message, timestamp 
     FROM users
     LEFT OUTER JOIN chat_messages
     ON (users.id = chat_messages.user_id)
@@ -35,6 +35,26 @@ module.exports.getUserWithMessage = (message) => {
     ORDER BY timestamp DESC
     LIMIT 1`;
     const params = [message];
+
+    return db.query(q, params);
+};
+
+module.exports.getUserInfo = (id) => {
+    const q = `
+    SELECT first, last, profile_pic
+    FROM users
+    WHERE id = ($1)`;
+    const params = [id];
+
+    return db.query(q, params);
+};
+
+module.exports.getConnectedUsers = (array) => {
+    const q = `
+    SELECT id, first, last, profile_pic
+    FROM users
+    WHERE id = ANY ($1)`;
+    const params = [array];
 
     return db.query(q, params);
 };
