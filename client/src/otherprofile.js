@@ -70,12 +70,11 @@ export default class OtherProfile extends Component {
                         {this.state.id && (
                             <FriendButton 
                                 otherId={this.state.id}
+                                style={{display: 'inline'}}
                             />
                         )}
                     </div>
                 )}
-                <h2>Who is in here?</h2>
-                <Link to="/users">Find User</Link>
             </>
         );
     }

@@ -22,13 +22,28 @@ const Chat = () => {
         <>
             <h2>Welcome to the Chat Room</h2>
             <div className="users-online">
-                {onlineUsers.map((user, idx) => {
-                    return (
-                        <div key={idx}>
-                            <h3>{user.first}</h3>
-                        </div>
-                    );
-                })}
+                {onlineUsers.length == 1 ? (
+                    <h3>{onlineUsers.length} user are online</h3>
+                ) : (
+                    <h3>{onlineUsers.length} users are online</h3>
+                )}
+                <div style={{ display: "flex" }}>
+                    {onlineUsers.map((user, idx) => {
+                        return (
+                            <div key={idx} style={{ marginRight: 10}}>
+                                <img
+                                    style={{
+                                        width: 50,
+                                        height: 50,
+                                        borderRadius: "50%",
+                                    }}
+                                    src={user.profile_pic}
+                                />
+                                <p>{user.first}</p>
+                            </div>
+                        );
+                    })}
+                </div>
             </div>
             <div className="chat-container">
                 {recentMessages.map((msg, idx) => {
@@ -52,6 +67,7 @@ const Chat = () => {
                     );
                 })}
                 <textarea
+                    style={{marginBottom: 30}}
                     onKeyDown={handleKeyDown}
                     placeholder="Leave your message here..."
                 ></textarea>

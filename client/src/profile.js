@@ -28,8 +28,6 @@ export default function Profile({
                     setBio={setBio}
                 />
             </div>
-            <h2>Who is in here?</h2>
-            <Link to="/users">Find User</Link>
         </div>
     );
 }

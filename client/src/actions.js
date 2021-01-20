@@ -18,26 +18,14 @@ export async function getUserInfo() {
 
 // DISPATCH MESSAGES FROM CHAT
 
-export async function storeChatMessages(mostRecentMessages) {
-    try {
-        // console.log("Most recent messages action: ", mostRecentMessages);
-    } catch {
-        (err) => console.log("Error storing messages in State: ", err);
-    }
-
+export function storeChatMessages(mostRecentMessages) {
     return {
         type: "ADD_RECENT_MESSAGES",
         recentMessages: mostRecentMessages,
     };
 }
 
-export async function addNewMessage(newMessage) {
-    try {
-        console.log("This is the very last message", newMessage);
-    } catch {
-        (err) => console.log("Error updating last message");
-    }
-
+export function addNewMessage(newMessage) {
     return {
         type: "ADD_NEW_MESSAGE",
         newMessage: newMessage,
@@ -45,12 +33,6 @@ export async function addNewMessage(newMessage) {
 }
 
 export function currentConnectedUsers(connectedUsers) {
-    try {
-        console.log("Dispatching connected Users to State", connectedUsers);
-    } catch {
-        (err) => console.log("error dispatching new user", err);
-    }
-
     return {
         type: "CONNECTED_USERS",
         connectedUsers: connectedUsers,
@@ -58,12 +40,6 @@ export function currentConnectedUsers(connectedUsers) {
 }
 
 export function addConnectedUser(connectedUser) {
-    try {
-        console.log("Adding to conneceted user");
-    } catch {
-        (err) => console.log("Error adding connected user", err);
-    }
-
     return {
         type: "ADD_CONNECTED_USER",
         connectedUser: connectedUser,
@@ -71,12 +47,6 @@ export function addConnectedUser(connectedUser) {
 }
 
 export function connectedUsersAfterUserLeaving(afterUserLeaving) {
-    try {
-        console.log("Connected users after user is leaving");
-    } catch {
-        console.log("Error when disconnecting");
-    }
-
     return {
         type: "USER_LEAVING",
         afterUserLeaving: afterUserLeaving,

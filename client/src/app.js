@@ -11,6 +11,7 @@ import FindPeople from "./findpeople";
 import UserFriends from "./userfriends";
 import Header from "./header";
 import Chat from "./chat";
+import NavBar from "./navbar";
 
 export default class App extends Component {
     constructor() {
@@ -82,6 +83,7 @@ export default class App extends Component {
                         />
                     )}
                     <div className="divisory"></div>
+                    <NavBar />
                     <div className="profiles">
                         <Route
                             path="/user/:id"
