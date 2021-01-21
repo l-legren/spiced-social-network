@@ -20,10 +20,10 @@ const Chat = () => {
 
     return (
         <>
-            <h2>Welcome to the Chat Room</h2>
+            <h2>Welcome to the Chatroom</h2>
             <div className="users-online">
                 {onlineUsers.length == 1 ? (
-                    <h3>{onlineUsers.length} user are online</h3>
+                    <h3>{onlineUsers.length} user is online</h3>
                 ) : (
                     <h3>{onlineUsers.length} users are online</h3>
                 )}

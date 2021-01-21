@@ -24,8 +24,8 @@ const Header = ({ toggleUploader, profilePic }) => {
                     <Col xs={12} sm={6} md={3} lg={3}>
                         <a href='/' style={{textDecoration:'none', color: 'black'}}><Logo /></a>
                     </Col>
-                    <Col xs={0} sm={0} md={4} lg={4}></Col>
-                    <Col xs={12} sm={6} md={5} lg={5}>
+                    <Col xs={6} sm={0} md={3} lg={3}></Col>
+                    <Col xs={6} sm={6} md={6} lg={6}>
                         <div id="nav-top-image">
                             <div id="name-logout">
                                 <div id="name-log-wrapper">
