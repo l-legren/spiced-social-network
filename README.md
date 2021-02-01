@@ -6,7 +6,9 @@ A principle of Social Network built on React
 ## What's this?
 
 This project was built during my attendance to the Spiced Academy's Web Development Bootcamp in Berlin.
-This app is a principle of Social Network built in React. User can sign up, log in and reset password with AWS.
+This app is a principle of Social Network built with React. 
+
+User can sign up, log in and reset password with AWS.
 Once registered the user can add a bio to its homepage, make friend requests, accept or ignore these, as well as see the list of friends or requests. There is also implemented an incremental search feature where the user can find users whose name match the input.
 Another feature is the chatroom where users can chat real time with each other as well as see who is online with the power of Socket IO.
 
