@@ -38,3 +38,10 @@ To make it run just clone the repository, install all the dependencies with ```n
 
 ### Homepage
 ![Homepage screenshot](https://github.com/l-legren/spiced-social-network/blob/leret/client/public/screenshots/homepage.jpg)
+### Find users
+![Find Users screenshot](https://github.com/l-legren/spiced-social-network/blob/leret/client/public/screenshots/findusers.jpg)
+### Requests
+![Requests screenshot](https://github.com/l-legren/spiced-social-network/blob/leret/client/public/screenshots/requests.jpg)
+### Chatroom
+![Chatroom screenshot](https://github.com/l-legren/spiced-social-network/blob/leret/client/public/screenshots/chatroom.jpg)
+
