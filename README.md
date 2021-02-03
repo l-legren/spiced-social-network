@@ -3,6 +3,8 @@ A principle of Social Network built on React
 
 # Social Network
 
+* Please find the files in leret branch
+
 ## What's this?
 
 This Social Network was built during my attendance to the Spiced Academy's Web Development Bootcamp in Berlin. 
