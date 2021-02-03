@@ -35,4 +35,4 @@ I addition to the AWS set up it's necessary to create a new PSQL Database and ed
 To make it run just clone the repository, install all the dependencies with ```npm install``` and from the local directory in the terminal run the server with ```npm run``` and the client with ```npm run dev:client```.
 
 ## Screenshots
-![Homepage](/screenshots/homepage.jpg)
+![Homepage](public/screenshots/homepage.jpg)
