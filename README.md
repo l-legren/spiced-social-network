@@ -36,5 +36,6 @@ To make it run just clone the repository, install all the dependencies with ```n
 
 ## Screenshots
 
-###Homepage
+### Homepage
+
 ![Homepage](https://github.com/l-legren/spiced-social-network/tree/leret/client/public/screenshots/homepage.jpg)
